@@ -1,7 +1,7 @@
 #include <iostream>
+#include "system.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	initializeSystem();
 }
-
