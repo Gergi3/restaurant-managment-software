@@ -35,7 +35,3 @@ bool initializeSystemFiles()
 	return true;
 }
 
-void run()
-{
-
-}
