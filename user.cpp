@@ -3,57 +3,45 @@
 #include "io.h"
 #include "user.h"
 
-const int MAX_ROLE_LENGTH = 64;
-
-enum Role
-{
-	Server = 1,
-	Manager = 2
-};
+const unsigned MAX_ROLE_LENGTH = 64;
 
 Role getRole()
 {
 	char inputStr[MAX_ROLE_LENGTH];
 
-	bool isServer, isManager = false;
+	bool isServer = false, isManager = false;
 
-	do
+	while (!isManager && !isServer)
 	{
 		print("What role are you? Server (s) or Manager (m)?");
 		input(inputStr, MAX_ROLE_LENGTH);
-		
+
 		trimMutate(inputStr);
 
 		isServer = isValidRoleString(inputStr, "server", 's');
 		isManager = isValidRoleString(inputStr, "manager", 'm');
 
-		if (isManager)
-		{
-			print("You have logged in as a Manager");
-			break;
-		}
-		else if (isServer)
-		{
-			print("You have logged in as a Server");
-			break;
-		}
-		else
+		if (!isManager && !isServer)
 		{
 			print(inputStr, 0);
 			print(" is not a valid role. Please try again!", 2);
 		}
+	}
 
-	} while (true);
+	Role role = isManager ? Role::Manager : Role::Server;
 
-	return isServer ? Role::Server : Role::Manager;
+	print("You have logged in as a ", 0);
+	print(toString(role));
+
+	return role;
 }
 
 bool isValidRoleString(
-	const char* str, 
+	const char* str,
 	const char const* expected,
 	char expectedShort)
 {
-	return contains(str, expected, false) 
+	return contains(str, expected, false)
 		|| length(str) == 1 && str[0] == expectedShort;
 }
 

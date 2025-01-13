@@ -1,6 +1,6 @@
 #pragma once
 
-enum Role;
+#include "role.h"
 
 Role getRole();
 
