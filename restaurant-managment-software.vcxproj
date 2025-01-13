@@ -127,17 +127,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="inventory.cpp" />
     <ClCompile Include="io.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="stream.cpp" />
+    <ClCompile Include="misc.cpp" />
     <ClCompile Include="string.cpp" />
     <ClCompile Include="system.cpp" />
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="stream.h" />
+    <ClInclude Include="misc.h" />
+    <ClInclude Include="inventory.h" />
+    <ClInclude Include="inventoryItem.h" />
     <ClInclude Include="io.h" />
+    <ClInclude Include="role.h" />
     <ClInclude Include="string.h" />
     <ClInclude Include="system.h" />
     <ClInclude Include="user.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="dailyRevenues.txt" />
+    <Text Include="inventory.txt" />
+    <Text Include="menu.txt" />
+    <Text Include="orders.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

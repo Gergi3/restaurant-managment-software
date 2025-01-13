@@ -11,6 +11,12 @@
     <Filter Include="Services">
       <UniqueIdentifier>{5797b4ad-4c35-4b44-98b1-6253eb31a1d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Enums">
+      <UniqueIdentifier>{ff089904-27cf-4ccb-b845-9bc84818a42d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Structs">
+      <UniqueIdentifier>{dba1f1c7-b330-469e-8ba0-048d6b8c1092}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -28,6 +34,15 @@
     <ClCompile Include="io.cpp">
       <Filter>Services</Filter>
     </ClCompile>
+    <ClCompile Include="inventory.cpp">
+      <Filter>Services</Filter>
+    </ClCompile>
+    <ClCompile Include="stream.cpp">
+      <Filter>Services</Filter>
+    </ClCompile>
+    <ClCompile Include="misc.cpp">
+      <Filter>Services</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system.h">
@@ -42,5 +57,26 @@
     <ClInclude Include="io.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="role.h">
+      <Filter>Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="inventoryItem.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="stream.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="misc.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="dailyRevenues.txt" />
+    <Text Include="inventory.txt" />
+    <Text Include="menu.txt" />
+    <Text Include="orders.txt" />
   </ItemGroup>
 </Project>
