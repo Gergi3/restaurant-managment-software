@@ -19,9 +19,27 @@
     <ClCompile Include="system.cpp">
       <Filter>Services</Filter>
     </ClCompile>
+    <ClCompile Include="user.cpp">
+      <Filter>Services</Filter>
+    </ClCompile>
+    <ClCompile Include="string.cpp">
+      <Filter>Services</Filter>
+    </ClCompile>
+    <ClCompile Include="io.cpp">
+      <Filter>Services</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="user.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="string.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="io.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
