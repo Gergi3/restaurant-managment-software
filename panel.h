@@ -1,7 +1,7 @@
 #pragma once
 #include "role.h"
 
-const unsigned EXIT_OPTION = 15;
+const unsigned EXIT_OPTION = 1;
 
 void displayPanel(Role role);
 
