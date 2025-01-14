@@ -13,6 +13,20 @@ void input(
 	std::cin.getline(result, maxInputChars);
 }
 
+void input(int& result)
+{
+	std::cin >> result;
+}
+
+void clearErrorFlagsFromCin()
+{
+	if (std::cin.fail())
+	{
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	};
+}
+
 void print(
 	const char const* toPrint,
 	unsigned newLinesCount)
