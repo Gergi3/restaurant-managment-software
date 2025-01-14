@@ -1,5 +1,4 @@
 #pragma once
-
 #include <fstream>
 
 bool isValidStream(std::ofstream& ofs);

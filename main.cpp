@@ -1,7 +1,7 @@
-#include <iostream>
-#include "system.h"
 #include "string.h"
+#include "system.h"
 #include "user.h"
+#include <iostream>
 
 int main()
 {

@@ -1,6 +1,6 @@
 #pragma once
-#include "role.h"
 #include "inventoryItem.h";
+#include "role.h"
 
 char* toString(unsigned num);
 

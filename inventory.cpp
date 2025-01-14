@@ -1,8 +1,8 @@
-#include <fstream>
-#include "stream.h"
+#include "garbageCollector.h"
 #include "inventory.h";
 #include "inventoryItem.h"
-#include "garbageCollector.h"
+#include "stream.h"
+#include <fstream>
 
 void addToInventory(InventoryItem item)
 {

@@ -1,5 +1,5 @@
-#include "inventoryItem.h"
 #include "garbageCollector.h"
+#include "inventoryItem.h"
 
 void free(InventoryItem** items)
 {

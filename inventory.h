@@ -1,5 +1,4 @@
 #pragma once
-
 #include "inventoryItem.h"
 #include <fstream>
 

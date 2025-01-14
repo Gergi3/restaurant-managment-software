@@ -1,7 +1,7 @@
-#include <iostream>
-#include "string.h"
 #include "io.h"
+#include "string.h"
 #include "user.h"
+#include <iostream>
 
 const unsigned MAX_ROLE_LENGTH = 64;
 

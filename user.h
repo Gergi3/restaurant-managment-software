@@ -1,5 +1,4 @@
 #pragma once
-
 #include "role.h"
 
 Role getRole();

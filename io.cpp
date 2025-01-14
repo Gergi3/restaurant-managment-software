@@ -1,6 +1,5 @@
-#include <iostream>
 #include "io.h"
-
+#include <iostream>
 
 void input(
 	char* result,

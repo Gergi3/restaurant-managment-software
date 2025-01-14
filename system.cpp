@@ -1,5 +1,5 @@
-#include <fstream>
 #include "system.h"
+#include <fstream>
 
 const unsigned char FILES_COUNT = 4;
 const char const* FILE_NAMES[FILES_COUNT] =

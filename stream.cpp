@@ -1,5 +1,5 @@
-#include <fstream>
 #include "stream.h"
+#include <fstream>
 
 const unsigned MAX_BUFFER_SIZE = 1024;
 

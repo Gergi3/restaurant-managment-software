@@ -1,8 +1,6 @@
-#include "string.h"
-#include "user.h"
-#include "inventoryItem.h"
-#include <iostream>
 #include "misc.h"
+#include "role.h"
+#include "string.h"
 
 const char* toString(Role role)
 {
