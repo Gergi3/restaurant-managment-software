@@ -18,17 +18,35 @@ void input(int& result)
 	std::cin >> result;
 }
 
+void input(unsigned& result)
+{
+	std::cin >> result;
+}
+
 void clearErrorFlagsFromCin()
 {
 	if (std::cin.fail())
 	{
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		forceClearErrorFlagsFromCin();
 	};
+}
+
+void forceClearErrorFlagsFromCin()
+{
+	std::cin.clear();
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 void print(
 	const char const* toPrint,
+	unsigned newLinesCount)
+{
+	std::cout << toPrint;
+	printNewLines(newLinesCount);
+}
+
+void print(
+	unsigned toPrint,
 	unsigned newLinesCount)
 {
 	std::cout << toPrint;
@@ -48,3 +66,9 @@ void printNewLine()
 {
 	std::cout << std::endl;
 }
+
+void clearConsole()
+{
+	system("cls");
+}
+
