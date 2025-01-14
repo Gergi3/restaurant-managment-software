@@ -1,6 +1,8 @@
 #pragma once
 #include "inventoryItem.h"
 
-void free(InventoryItem** items);
+void freeMemory(InventoryItem** items);
 
-void free(InventoryItem* item);
+void freeMemory(InventoryItem* item);
+
+void freeMemory(int* nums);
