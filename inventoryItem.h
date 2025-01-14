@@ -1,9 +1,8 @@
 #pragma once
-
-const unsigned MAX_INVENTORY_NAME_SIZE = 32;
+#include "inventoryConstants.h"
 
 struct InventoryItem
 {
-	char name[MAX_INVENTORY_NAME_SIZE];
+	char name[INVENTORY_CONSTANTS::MAX_NAME_LENGTH + 1];
 	unsigned quantity = 0;
 };

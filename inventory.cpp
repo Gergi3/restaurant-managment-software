@@ -1,17 +1,32 @@
 #include "garbageCollector.h"
 #include "inventory.h";
 #include "inventoryItem.h"
+#include "inventoryValidator.h"
+#include "io.h"
 #include "stream.h"
+#include "string.h";
+#include "validator.h"
 #include <fstream>
 
-void addToInventory(InventoryItem item)
+bool addToInventory(InventoryItem item, int*& failCodes)
 {
-	addToInventory(item.name, item.quantity);
+	return addToInventory(item.name, item.quantity, failCodes);
 }
 
-void addToInventory(const char const* name, unsigned quantity)
+bool addToInventory(const char const* name, unsigned quantity, int*& failCodes)
 {
-	mutateInventory(name, quantity);
+	bool isValid = validateInventoryItem(name, quantity, failCodes);
+
+	if (!isValid)
+	{
+		return false;
+	}
+
+	inventoryItemExists(name)
+		? mutateInventory(name, quantity)
+		: appendToInventory(name, quantity);
+
+	return true;
 }
 
 void addToInventory(std::ofstream& ofs, const char const* name, unsigned quantity)
@@ -19,29 +34,27 @@ void addToInventory(std::ofstream& ofs, const char const* name, unsigned quantit
 	ofs << name << ';' << quantity << std::endl;
 }
 
-void removeFromInventory(InventoryItem item)
+bool removeFromInventory(InventoryItem item, int*& failCodes)
 {
-	removeFromInventory(item.name);
+	return removeFromInventory(item.name, failCodes);
 }
 
-void removeFromInventory(const char const* name)
+bool removeFromInventory(const char const* name, int*& failCodes)
 {
+	bool isValidName = validateInventoryItemName(name);
+	bool itemExists = inventoryItemExists(name);
+
+	if (!itemExists || !isValidName)
+	{
+		addFailCode(INVENTORY_CONSTANTS::REMOVAL_FAIL_CODE, failCodes);
+		return false;
+	}
+
 	mutateInventory(name, 0, true);
 }
 
 void mutateInventory(const char const* name, unsigned quantity, bool isDelete)
 {
-	bool itemExists = inventoryItemExists(name);
-	if (!itemExists && !isDelete)
-	{
-		appendToInventory(name, quantity);
-		return;
-	}
-	else if (!itemExists && isDelete)
-	{
-		return;
-	}
-
 	InventoryItem** items = getAllFromInventory();
 
 	std::ofstream ofs("inventory.txt");
@@ -49,7 +62,7 @@ void mutateInventory(const char const* name, unsigned quantity, bool isDelete)
 	{
 		return;
 	}
-	
+
 	unsigned indx = 0;
 	while (items[indx])
 	{
@@ -57,7 +70,7 @@ void mutateInventory(const char const* name, unsigned quantity, bool isDelete)
 
 		bool toFindIsCurrentItem = !strcmp(item->name, name);
 		bool shouldOutputCurrentItem = !(toFindIsCurrentItem && isDelete);
-		
+
 		if (toFindIsCurrentItem)
 		{
 			item->quantity += quantity;
@@ -65,11 +78,11 @@ void mutateInventory(const char const* name, unsigned quantity, bool isDelete)
 
 		if (shouldOutputCurrentItem)
 		{
-			addToInventory(item->name, item->quantity);
+			addToInventory(ofs, item->name, item->quantity);
 		}
 	}
 
-	free(items);
+	freeMemory(items);
 
 	ofs.close();
 }
@@ -121,7 +134,7 @@ bool inventoryItemExists(const char const* name)
 
 	bool exists = item != nullptr;
 
-	free(item);
+	freeMemory(item);
 
 	return exists;
 }
@@ -152,7 +165,28 @@ InventoryItem** getAllFromInventory()
 
 void setItemValues(std::ifstream& ifs, InventoryItem*& item)
 {
-	ifs.getline(item->name, MAX_INVENTORY_NAME_SIZE, ';');
+	ifs.getline(item->name, INVENTORY_CONSTANTS::MAX_NAME_LENGTH, ';');
 	ifs >> item->quantity;
 	ifs.ignore();
+}
+
+void displayInventoryItems(InventoryItem** items)
+{
+	if (!items)
+	{
+		return;
+	}
+
+	unsigned indx = 0;
+	while (items[indx])
+	{
+		InventoryItem* item = items[indx];
+
+		print(item->name, 0);
+		print(" - ", 0);
+		print(item->quantity, 0);
+		print("g.");
+
+		indx++;
+	}
 }

@@ -2,17 +2,19 @@
 #include "inventoryItem.h"
 #include <fstream>
 
-void addToInventory(InventoryItem item);
+bool addToInventory(InventoryItem item, int*& failCodes);
 
-void addToInventory(const char const* name, unsigned quantity);
+bool addToInventory(const char const* name, unsigned quantity, int*& failCodes);
 
 void addToInventory(std::ofstream& ofs, const char const* name, unsigned quantity);
 
-void removeFromInventory(InventoryItem item);
+bool removeFromInventory(InventoryItem item, int*& failCodes);
 
-void removeFromInventory(const char const* name);
+bool removeFromInventory(const char const* name, int*& failCodes);
 
 void mutateInventory(const char const* name, unsigned quantity, bool isDelete = false);
+
+void addToInventory(std::ofstream& ofs, const char const* name, unsigned quantity);
 
 void appendToInventory(const char const* name, unsigned quantity);
 
@@ -23,3 +25,5 @@ InventoryItem* getFromInventory(const char const* name);
 InventoryItem** getAllFromInventory();
 
 void setItemValues(std::ifstream& ifs, InventoryItem*& item);
+
+void displayInventoryItems(InventoryItem** items);
