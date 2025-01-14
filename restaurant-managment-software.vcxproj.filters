@@ -5,9 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{9b47ad69-9610-4363-aeea-8c0ba1e7975d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Services">
       <UniqueIdentifier>{5797b4ad-4c35-4b44-98b1-6253eb31a1d9}</UniqueIdentifier>
     </Filter>
@@ -17,60 +14,105 @@
     <Filter Include="Structs">
       <UniqueIdentifier>{dba1f1c7-b330-469e-8ba0-048d6b8c1092}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Validators">
+      <UniqueIdentifier>{884cf8f3-bb5b-4195-b71a-5789d4c17c4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{56706522-9ac8-4f39-8365-4ded373eede7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Services\Data">
+      <UniqueIdentifier>{db5fe71f-2c3f-465f-a305-abde2087d3e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Services\Core">
+      <UniqueIdentifier>{f8b98d1c-5d79-4a3a-b594-76eba71565ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Constants">
+      <UniqueIdentifier>{ff1c8972-2bc4-48be-8904-551d951b1c29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="system.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="user.cpp">
-      <Filter>Services</Filter>
+    <ClCompile Include="inventoryValidator.cpp">
+      <Filter>Validators</Filter>
     </ClCompile>
     <ClCompile Include="string.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="io.cpp">
-      <Filter>Services</Filter>
-    </ClCompile>
-    <ClCompile Include="inventory.cpp">
-      <Filter>Services</Filter>
+      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="stream.cpp">
-      <Filter>Services</Filter>
+      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="misc.cpp">
-      <Filter>Services</Filter>
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="io.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="garbageCollector.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="inventory.cpp">
+      <Filter>Services\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="panel.cpp">
+      <Filter>Services\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="system.cpp">
+      <Filter>Services\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="user.cpp">
+      <Filter>Services\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="validator.cpp">
+      <Filter>Validators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="system.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="user.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="string.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="io.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="role.h">
       <Filter>Enums</Filter>
     </ClInclude>
     <ClInclude Include="inventoryItem.h">
       <Filter>Structs</Filter>
     </ClInclude>
-    <ClInclude Include="stream.h">
-      <Filter>Headers</Filter>
+    <ClInclude Include="inventoryValidator.h">
+      <Filter>Validators</Filter>
     </ClInclude>
-    <ClInclude Include="inventory.h">
-      <Filter>Headers</Filter>
+    <ClInclude Include="io.h">
+      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="misc.h">
-      <Filter>Headers</Filter>
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="stream.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="string.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="garbageCollector.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory.h">
+      <Filter>Services\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="panel.h">
+      <Filter>Services\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="system.h">
+      <Filter>Services\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="user.h">
+      <Filter>Services\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="inventoryConstants.h">
+      <Filter>Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="generalConstants.h">
+      <Filter>Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="validator.h">
+      <Filter>Validators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

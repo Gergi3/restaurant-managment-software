@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="inventory.cpp" />
+    <ClCompile Include="inventoryValidator.cpp" />
     <ClCompile Include="io.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="garbageCollector.cpp" />
@@ -137,9 +138,13 @@
     <ClCompile Include="string.cpp" />
     <ClCompile Include="system.cpp" />
     <ClCompile Include="user.cpp" />
+    <ClCompile Include="validator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="garbageCollector.h" />
+    <ClInclude Include="generalConstants.h" />
+    <ClInclude Include="inventoryConstants.h" />
+    <ClInclude Include="inventoryValidator.h" />
     <ClInclude Include="panel.h" />
     <ClInclude Include="stream.h" />
     <ClInclude Include="misc.h" />
@@ -150,6 +155,7 @@
     <ClInclude Include="string.h" />
     <ClInclude Include="system.h" />
     <ClInclude Include="user.h" />
+    <ClInclude Include="validator.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="dailyRevenues.txt" />
