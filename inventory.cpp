@@ -2,6 +2,7 @@
 #include "stream.h"
 #include "inventory.h";
 #include "inventoryItem.h"
+#include "garbageCollector.h"
 
 void addToInventory(InventoryItem item)
 {
@@ -10,39 +11,78 @@ void addToInventory(InventoryItem item)
 
 void addToInventory(const char const* name, unsigned quantity)
 {
+	mutateInventory(name, quantity);
+}
+
+void addToInventory(std::ofstream& ofs, const char const* name, unsigned quantity)
+{
+	ofs << name << ';' << quantity << std::endl;
+}
+
+void removeFromInventory(InventoryItem item)
+{
+	removeFromInventory(item.name);
+}
+
+void removeFromInventory(const char const* name)
+{
+	mutateInventory(name, 0, true);
+}
+
+void mutateInventory(const char const* name, unsigned quantity, bool isDelete)
+{
+	bool itemExists = inventoryItemExists(name);
+	if (!itemExists && !isDelete)
+	{
+		appendToInventory(name, quantity);
+		return;
+	}
+	else if (!itemExists && isDelete)
+	{
+		return;
+	}
+
 	InventoryItem** items = getAllFromInventory();
-	unsigned indx = 0;
 
 	std::ofstream ofs("inventory.txt");
 	if (!isValidStream(ofs))
 	{
 		return;
 	}
-
-	bool exists = false;
+	
+	unsigned indx = 0;
 	while (items[indx])
 	{
-		InventoryItem* item = items[indx];
+		InventoryItem* item = items[indx++];
 
-		if (!strcmp(item->name, name))
+		bool toFindIsCurrentItem = !strcmp(item->name, name);
+		bool shouldOutputCurrentItem = !(toFindIsCurrentItem && isDelete);
+		
+		if (toFindIsCurrentItem)
 		{
 			item->quantity += quantity;
-			exists = true;
 		}
-		ofs << item->name << ';' << item->quantity << std::endl;
-		
-		delete[] item;
-		item = nullptr;
 
-		indx++;
+		if (shouldOutputCurrentItem)
+		{
+			addToInventory(item->name, item->quantity);
+		}
 	}
-	delete[] items;
-	items = nullptr;
 
-	if (!exists)
+	free(items);
+
+	ofs.close();
+}
+
+void appendToInventory(const char const* name, unsigned quantity)
+{
+	std::ofstream ofs("inventory.txt", std::ios::app);
+	if (!isValidStream(ofs))
 	{
-		ofs << name << ';' << quantity << std::endl;
+		return;
 	}
+
+	addToInventory(ofs, name, quantity);
 
 	ofs.close();
 }
@@ -73,6 +113,17 @@ InventoryItem* getFromInventory(const char const* name)
 	ifs.close();
 
 	return isFetched ? item : nullptr;
+}
+
+bool inventoryItemExists(const char const* name)
+{
+	InventoryItem* item = getFromInventory(name);
+
+	bool exists = item != nullptr;
+
+	free(item);
+
+	return exists;
 }
 
 InventoryItem** getAllFromInventory()

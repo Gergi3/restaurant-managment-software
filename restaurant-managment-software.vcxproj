@@ -130,6 +130,7 @@
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="io.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="garbageCollector.cpp" />
     <ClCompile Include="stream.cpp" />
     <ClCompile Include="misc.cpp" />
     <ClCompile Include="string.cpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="garbageCollector.h" />
     <ClInclude Include="stream.h" />
     <ClInclude Include="misc.h" />
     <ClInclude Include="inventory.h" />
