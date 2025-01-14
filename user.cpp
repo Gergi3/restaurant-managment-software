@@ -21,6 +21,8 @@ Role getRole()
 		isServer = isValidRoleString(inputStr, "server", 's');
 		isManager = isValidRoleString(inputStr, "manager", 'm');
 
+		clearConsole();
+
 		if (!isManager && !isServer)
 		{
 			print(inputStr, 0);
