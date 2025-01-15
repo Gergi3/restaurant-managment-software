@@ -1,16 +1,17 @@
 #include "garbageCollector.h"
 #include "inventoryItem.h"
+#include "menuItem.h"
 
 void freeMemory(InventoryItem** items, bool freeItems)
 {
 	if (freeItems)
 	{
-	unsigned indx = 0;
-	while (items[indx])
-	{
-		freeMemory(items[indx]);
-		indx++;
-	}
+		unsigned indx = 0;
+		while (items[indx])
+		{
+			freeMemory(items[indx]);
+			indx++;
+		}
 	}
 
 	delete[] items;
@@ -27,4 +28,31 @@ void freeMemory(int* nums)
 {
 	delete[] nums;
 	nums = nullptr;
+}
+
+void freeMemory(MenuItem* item, bool freeIngredients)
+{
+	if (freeIngredients)
+	{
+		freeMemory(item->ingredients);
+	}
+	
+	delete item;
+	item = nullptr;
+}
+
+void freeMemory(MenuItem** items, bool freeMenuItems, bool freeIngredients)
+{
+	if (freeMenuItems)
+	{
+		unsigned indx = 0;
+		while (items[indx])
+		{
+			freeMemory(items[indx], freeIngredients);
+			indx++;
+		}
+	}
+
+	delete[] items;
+	items = nullptr;
 }
