@@ -26,4 +26,6 @@ InventoryItem** getAllFromInventory();
 
 void setItemValues(std::ifstream& ifs, InventoryItem*& item);
 
-void displayInventoryItems(InventoryItem** items);
+void displayInventoryItems(InventoryItem** items, unsigned indent = 0, char indentCh = ' ');
+
+void displayInventoryItem(InventoryItem* item, unsigned indent = 0, char indentCh = ' ');

@@ -44,7 +44,7 @@ bool removeFromInventory(const char const* name, int*& failCodes)
 	bool isValidName = validateInventoryItemName(name);
 	bool itemExists = inventoryItemExists(name);
 
-	if (!itemExists || !isValidName)
+	if (!itemExists)
 	{
 		addFailCode(INVENTORY_CONSTANTS::REMOVAL_FAIL_CODE, failCodes);
 		return false;
@@ -112,7 +112,7 @@ InventoryItem* getFromInventory(const char const* name)
 
 	InventoryItem* item = new InventoryItem;
 
-	while (!ifs.eof())
+	while (!ifs.eof() && ifs.good())
 	{
 		setItemValues(ifs, item);
 
@@ -121,6 +121,8 @@ InventoryItem* getFromInventory(const char const* name)
 			isFetched = true;
 			break;
 		}
+
+		ifs.peek();
 	}
 
 	ifs.close();
@@ -180,8 +182,19 @@ void displayInventoryItems(InventoryItem** items)
 	unsigned indx = 0;
 	while (items[indx])
 	{
-		InventoryItem* item = items[indx];
+		displayInventoryItem(items[indx], indent, indentCh);
 
+		indx++;
+	}
+}
+
+void displayInventoryItem(InventoryItem* item, unsigned indent, char indentCh)
+{
+	while (indent)
+	{
+		print(indentCh, 0);
+		indent--;
+	}
 		print(item->name, 0);
 		print(" - ", 0);
 		print(item->quantity, 0);
