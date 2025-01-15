@@ -1,25 +1,40 @@
+#include "generalConstants.h"
 #include "io.h"
 #include "string.h"
 #include "user.h"
+#include "userConstants.h"
 #include <iostream>
-
-const unsigned MAX_ROLE_LENGTH = 64;
 
 Role getRole()
 {
-	char inputStr[MAX_ROLE_LENGTH];
+	char inputStr[GENERAL_CONSTANTS::INPUT_BUFFER_SIZE];
 
 	bool isServer = false, isManager = false;
 
 	while (!isManager && !isServer)
 	{
-		print("What role are you? Server (s) or Manager (m)?");
-		input(inputStr, MAX_ROLE_LENGTH);
+		print("What role are you? ", 0);
+		
+		print(USER_CONSTANTS::SERVER_ROLE_LONG, 0);
+		print(" (", 0);
+		print(USER_CONSTANTS::SERVER_ROLE_SHORT, 0);
+		print(") or ", 0);
+		print(USER_CONSTANTS::MANAGER_ROLE_LONG, 0);
+		print(" (", 0);
+		print(USER_CONSTANTS::MANAGER_ROLE_SHORT, 0);
+		print(")?");
+
+		input(inputStr);
 
 		trimMutate(inputStr);
 
-		isServer = isValidRoleString(inputStr, "server", 's');
-		isManager = isValidRoleString(inputStr, "manager", 'm');
+		isServer = isValidRoleString(inputStr, 
+			USER_CONSTANTS::SERVER_ROLE_LONG,
+			USER_CONSTANTS::SERVER_ROLE_SHORT);
+		
+		isManager = isValidRoleString(inputStr,
+			USER_CONSTANTS::MANAGER_ROLE_LONG,
+			USER_CONSTANTS::MANAGER_ROLE_SHORT);
 
 		clearConsole();
 
@@ -44,6 +59,6 @@ bool isValidRoleString(
 	char expectedShort)
 {
 	return contains(str, expected, false)
-		|| length(str) == 1 && str[0] == expectedShort;
+		|| length(str) == 1 && toLower(str[0]) == toLower(expectedShort);
 }
 
