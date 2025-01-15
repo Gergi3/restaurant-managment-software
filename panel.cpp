@@ -2,15 +2,13 @@
 #include "generalConstants.h";
 #include "inventory.h";
 #include "inventoryItem.h";
+#include "inventoryValidator.h"
 #include "io.h";
 #include "panel.h"
+#include "panelConstants.h"
 #include "role.h"
+#include "string.h";
 #include "validator.h"
-
-const unsigned MIN_SERVER_OPTION = 1;
-const unsigned MIN_MANAGER_OPTION = 1;
-const unsigned MAX_SERVER_OPTION = 7;
-const unsigned MAX_MANAGER_OPTION = 15;
 
 void displayPanel(Role role)
 {
@@ -43,8 +41,6 @@ int promptForOption(Role role)
 	int chosenOption = -1;
 	input(chosenOption);
 
-	forceClearErrorFlagsFromCin();
-
 	if (!isValidOption(chosenOption, role))
 	{
 		return -1;
@@ -66,6 +62,8 @@ void routeToOption(int option)
 	int* failCodes = new int[GENERAL_CONSTANTS::FAIL_CODES_LENGTH]
 		{};
 
+	const unsigned bufferSize = GENERAL_CONSTANTS::INPUT_BUFFER_SIZE;
+
 	switch (option)
 	{
 		case 9: // Show inventory
@@ -80,13 +78,13 @@ void routeToOption(int option)
 		}
 		case 10: // Add to inventory
 		{
-			char name[INVENTORY_CONSTANTS::MAX_NAME_LENGTH];
+			char name[bufferSize];
 			unsigned quantity = 0;
 
 			print("-- Add to inventory -- ", 2);
 
 			print("Name for the inventory item: ", 0);
-			input(name, INVENTORY_CONSTANTS::MAX_NAME_LENGTH);
+			input(name);
 
 			print("Please input quantity for the inventory item: ", 0);
 			input(quantity);
@@ -100,17 +98,16 @@ void routeToOption(int option)
 
 			break;
 		}
-		case 11:
+		case 11: // Remove from inventory
 		{
-			char name[INVENTORY_CONSTANTS::MAX_NAME_LENGTH];
+			char name[bufferSize];
 			print("-- Remove from inventory -- ", 2);
 
 			print("Name for the inventory item: ", 0);
-			input(name, INVENTORY_CONSTANTS::MAX_NAME_LENGTH);
+			input(name);
 
-			bool removedSuccessfully = removeFromInventory(name, failCodes);
-
-			if (removedSuccessfully)
+			bool isRemoved = removeFromInventory(name, failCodes);
+			if (isRemoved)
 			{
 				print("Item removed successfully!");
 			}
@@ -123,14 +120,19 @@ void routeToOption(int option)
 
 	freeMemory(failCodes);
 
+	printNewLine();
 	system("pause");
 	clearConsole();
 }
 
 bool isValidOption(int option, Role role)
 {
-	return option >= MIN_SERVER_OPTION && option <= MAX_SERVER_OPTION && role == Role::Server
-		|| option >= MIN_MANAGER_OPTION && option <= MAX_MANAGER_OPTION && role == Role::Manager;
+	return option >= PANEL_CONSTANTS::MIN_SERVER_OPTION
+		&& option <= PANEL_CONSTANTS::MAX_SERVER_OPTION
+		&& role == Role::Server
+		|| option >= PANEL_CONSTANTS::MIN_MANAGER_OPTION
+		&& option <= PANEL_CONSTANTS::MAX_MANAGER_OPTION
+		&& role == Role::Manager;
 }
 
 void displayExitMessage()
