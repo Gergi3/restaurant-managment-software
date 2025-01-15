@@ -58,6 +58,60 @@ char digitToChar(unsigned num)
 	return num + '0';
 }
 
+unsigned charToDigit(char ch)
+{
+	if (!isDigitChar(ch))
+	{
+		return 0;
+	}
+
+	return ch - '0';
+}
+
+bool isDigitChar(char ch)
+{
+	return ch >= '0' && ch <= '9';
+}
+
+int strToNum(const char const* str)
+{
+	if (!str)
+	{
+		return 0;
+	}
+
+	if (*str == '-')
+	{
+		return -1 * strToUnsigned(str + 1);
+	}
+
+	return strToUnsigned(str);
+}
+
+unsigned strToUnsigned(const char const* str)
+{
+	if (!str)
+	{
+		return 0;
+	}
+
+	unsigned int result = 0;
+
+	while (*str)
+	{
+		if (!isDigitChar(*str))
+		{
+			return 0;
+		}
+
+		result = result * 10 + charToDigit(*str);
+		str++;
+	}
+
+	return result;
+}
+
+
 void concatMutate(char* lhs, unsigned num)
 {
 	char* numAsStr = toString(num);
@@ -210,6 +264,23 @@ char toLower(char ch)
 		return ch + 'a' - 'A';
 	}
 	return ch;
+}
+
+unsigned countCharOccurances(const char const* str, char toContain)
+{
+	if (!str)
+	{
+		return 0;
+	}
+
+	unsigned count = 0;
+	while (*str)
+	{
+		count += *str == toContain;
+		str++;
+	}
+
+	return count;
 }
 
 bool contains(
