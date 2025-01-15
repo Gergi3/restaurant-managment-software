@@ -103,6 +103,12 @@ void routeToOption(int option)
 			char name[bufferSize];
 			print("-- Remove from inventory -- ", 2);
 
+			InventoryItem** items = getAllFromInventory();
+			displayInventoryItems(items);
+			freeMemory(items);
+			printNewLine();
+			
+			print("Choose an item from above to remove.");
 			print("Name for the inventory item: ", 0);
 			input(name);
 
