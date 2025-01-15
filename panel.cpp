@@ -4,6 +4,9 @@
 #include "inventoryItem.h";
 #include "inventoryValidator.h"
 #include "io.h";
+#include "menu.h"
+#include "menu.h"
+#include "menuValidator.h"
 #include "panel.h"
 #include "panelConstants.h"
 #include "role.h"
@@ -13,9 +16,9 @@
 void displayPanel(Role role)
 {
 	print("1. Exit");
-	print("2. -");
-	print("3. -");
-	print("4. -");
+	print("2. Show menu");
+	print("3. Add to menu");
+	print("4. Remove from menu");
 	print("5. -");
 	print("6. -");
 	print("7. -");
@@ -66,6 +69,158 @@ void routeToOption(int option)
 
 	switch (option)
 	{
+		case 2:
+		{
+			print("-- Menu items --");
+			printNewLine();
+
+			MenuItem** items = getAllFromMenu();
+			displayMenuItems(items);
+
+			freeMemory(items);
+			break;
+		}
+		case 3:
+		{
+			char menuItemName[bufferSize];
+			unsigned ingredientsCount = 0;
+			unsigned price = 0;
+
+			print("-- Add to menu -- ", 2);
+
+			print("Name for the menu item: ", 0);
+			input(menuItemName);
+
+			bool exists = menuItemExists(menuItemName);
+			if (exists)
+			{
+				addFailCode(MENU_CONSTANTS::ALREADY_EXISTS_FAIL_CODE, failCodes);
+				displayFailCodeMessages(failCodes);
+				break;
+			}
+
+			print("Price for the menu item: ", 0);
+			input(price);
+
+			print("Please input how many ingredients the menu item needs: ", 0);
+			input(ingredientsCount);
+
+			bool isValid = validateMenuItem(menuItemName, price, ingredientsCount, failCodes);
+			if (!isValid)
+			{
+				clearConsole();
+				print("Menu item was not added.");
+				displayFailCodeMessages(failCodes);
+
+				break;
+			}
+
+			MenuItem* menuItem = new MenuItem;
+			
+			copyMutate(menuItem->name, menuItemName);
+			menuItem->price = price;
+			InventoryItem** chosenIngredients = new InventoryItem * [ingredientsCount + 1]
+				{};
+			menuItem->ingredients = chosenIngredients;
+
+			printNewLine();
+			print("-- Ingredients -- ");
+			InventoryItem** ingredients = getAllFromInventory();
+			displayInventoryItems(ingredients);
+			printNewLine();
+
+			print("Choose ingredients from above", 2);
+
+			unsigned indx = 0;
+			while (indx < ingredientsCount)
+			{
+				char ingredientName[bufferSize]{};
+				unsigned quantityNeeded = 0;
+
+				print("Ingredient ", 0);
+				print(indx + 1, 0);
+				print(": ", 0);
+				input(ingredientName);
+
+				bool isValidIngredientName = validateInventoryItemName(ingredientName, failCodes);
+				if (!isValidIngredientName)
+				{
+					displayFailCodeMessages(failCodes);
+					resetFailCodes(failCodes);
+					printNewLine();
+					continue;
+				}
+
+				InventoryItem* ingredient = getFromInventory(ingredientName, ingredients);
+				if (!ingredient)
+				{
+					print("No such ingredient was found, please chose an ingredient from the list above.", 2);
+					continue;
+				}
+
+				InventoryItem* chosenIngredient = getFromInventory(ingredientName, chosenIngredients);
+				if (chosenIngredient)
+				{
+					print("Ingredient was already chosen, you must choose an ingredient which has not been chosen.");
+					continue;
+				}
+
+				print("Quantity needed: ", 0);
+				input(quantityNeeded);
+
+				bool isValidIngredient = validateInventoryItemQuantity(quantityNeeded, failCodes);
+				if (!isValidIngredient)
+				{
+					displayFailCodeMessages(failCodes);
+					resetFailCodes(failCodes);
+					printNewLine();
+					continue;
+				}
+
+				ingredient->quantity = quantityNeeded;
+
+				chosenIngredients[indx] = ingredient;
+				indx++;
+				chosenIngredients[indx] = nullptr;
+
+				printNewLines(1);
+			}
+			
+			addToMenu(menuItem, failCodes);
+			print("Menu item added succesfully!");
+			
+			freeMemory(ingredients);
+			freeMemory(chosenIngredients, false);
+			freeMemory(menuItem, false);
+
+			break;
+		}
+		case 4:
+		{
+			char name[bufferSize];
+			print("-- Remove from menu -- ", 2);
+
+			MenuItem** items = getAllFromMenu();
+			displayMenuItems(items);
+			freeMemory(items);
+			printNewLine();
+
+			print("Choose an item from above to remove.");
+			print("Name for the menu item: ", 0);
+			input(name);
+
+			clearConsole();
+
+			bool isRemoved = removeFromMenu(name, failCodes);
+			if (isRemoved)
+			{
+				print("Item removed successsfully!");
+			}
+
+			displayFailCodeMessages(failCodes);
+
+			break;
+		}
 		case 9: // Show inventory
 		{
 			print("-- Show inventory -- ", 2);
