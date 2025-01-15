@@ -20,6 +20,8 @@ void appendToInventory(const char const* name, unsigned quantity);
 
 bool inventoryItemExists(const char const* name);
 
+InventoryItem* getFromInventory(const char const* name, InventoryItem** items);
+
 InventoryItem* getFromInventory(const char const* name);
 
 InventoryItem** getAllFromInventory();

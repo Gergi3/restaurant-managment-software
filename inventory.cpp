@@ -41,7 +41,6 @@ bool removeFromInventory(InventoryItem item, int*& failCodes)
 
 bool removeFromInventory(const char const* name, int*& failCodes)
 {
-	bool isValidName = validateInventoryItemName(name);
 	bool itemExists = inventoryItemExists(name);
 
 	if (!itemExists)
@@ -98,6 +97,25 @@ void appendToInventory(const char const* name, unsigned quantity)
 	addToInventory(ofs, name, quantity);
 
 	ofs.close();
+}
+
+InventoryItem* getFromInventory(const char const* name, InventoryItem** items)
+{
+	unsigned indx = 0;
+
+	while (items[indx])
+	{
+		InventoryItem* item = items[indx];
+
+		if (!strcmp(item->name, name))
+		{
+			return item;
+		}
+
+		indx++;
+	}
+
+	return nullptr;
 }
 
 InventoryItem* getFromInventory(const char const* name)
@@ -180,7 +198,7 @@ void setItemValues(std::ifstream& ifs, InventoryItem*& item)
 	ifs.ignore();
 }
 
-void displayInventoryItems(InventoryItem** items)
+void displayInventoryItems(InventoryItem** items, unsigned indent, char indentCh)
 {
 	if (!items)
 	{
@@ -203,11 +221,9 @@ void displayInventoryItem(InventoryItem* item, unsigned indent, char indentCh)
 		print(indentCh, 0);
 		indent--;
 	}
-		print(item->name, 0);
-		print(" - ", 0);
-		print(item->quantity, 0);
-		print("g.");
+	print(item->name, 0);
+	print(" - ", 0);
+	print(item->quantity, 0);
+	print("g.");
 
-		indx++;
-	}
 }
