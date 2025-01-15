@@ -1,26 +1,30 @@
 #include "io.h"
+#include "string.h";
 #include <iostream>
 
-void input(
-	char* result,
-	unsigned maxInputChars)
-{
-	if (maxInputChars == 0)
-	{
-		return;
-	}
+const unsigned MAX_CIN_BUFFER_SIZE = 1024;
 
-	std::cin.getline(result, maxInputChars);
+void input(char* result)
+{
+	std::cin.getline(result, MAX_CIN_BUFFER_SIZE, '\n');
 }
 
 void input(int& result)
 {
-	std::cin >> result;
+	char resultStr[MAX_CIN_BUFFER_SIZE]{};
+
+	std::cin.getline(resultStr, MAX_CIN_BUFFER_SIZE, '\n');
+
+	result = strToNum(resultStr);
 }
 
 void input(unsigned& result)
 {
-	std::cin >> result;
+	char resultStr[MAX_CIN_BUFFER_SIZE]{};
+
+	std::cin.getline(resultStr, MAX_CIN_BUFFER_SIZE, '\n');
+
+	result = strToUnsigned(resultStr);
 }
 
 void clearErrorFlagsFromCin()
@@ -39,6 +43,14 @@ void forceClearErrorFlagsFromCin()
 
 void print(
 	const char const* toPrint,
+	unsigned newLinesCount)
+{
+	std::cout << toPrint;
+	printNewLines(newLinesCount);
+}
+
+void print(
+	const char toPrint,
 	unsigned newLinesCount)
 {
 	std::cout << toPrint;
