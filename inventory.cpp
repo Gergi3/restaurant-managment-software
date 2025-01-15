@@ -127,7 +127,15 @@ InventoryItem* getFromInventory(const char const* name)
 
 	ifs.close();
 
-	return isFetched ? item : nullptr;
+	if (isFetched)
+	{
+		return item;
+	}
+	else
+	{
+		freeMemory(item);
+		return nullptr;
+	}
 }
 
 bool inventoryItemExists(const char const* name)
