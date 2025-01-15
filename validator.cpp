@@ -1,6 +1,8 @@
 #include "generalConstants.h"
 #include "inventoryConstants.h"
 #include "inventoryValidator.h"
+#include "menuConstants.h"
+#include "menuValidator.h"
 
 void displayFailCodeMessages(int*& failCodes)
 {
@@ -17,6 +19,11 @@ void displayFailCodeMessages(int*& failCodes)
 			&& failCode <= INVENTORY_CONSTANTS::FAIL_CODE_END)
 		{
 			displayInventoryItemFailCodeMessage(failCode);
+		}
+		else if (failCode >= MENU_CONSTANTS::FAIL_CODE_START
+			&& failCode <= MENU_CONSTANTS::FAIL_CODE_END)
+		{
+			displayMenuItemFailCodeMessages(failCode);
 		}
 	}
 }
