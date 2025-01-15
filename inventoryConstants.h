@@ -6,7 +6,8 @@ namespace INVENTORY_CONSTANTS
 	constexpr unsigned MIN_NAME_LENGTH = 2;
 
 	constexpr unsigned MIN_QUANTITY = 1;
-	constexpr unsigned MAX_QUANTITY = 100'000;
+	constexpr unsigned MAX_QUANTITY = 100'000; // DEPENDANT ON MAX_QUANTITY_DIGITS_COUNT
+	constexpr unsigned MAX_QUANTITY_DIGITS_COUNT = 6; // DEPENDANT ON MAX_QUANTITY
 
 	constexpr unsigned NAME_FAIL_CODE = 100;
 	constexpr char const* NAME_FAIL_MESSAGE = "Name must be between ";
