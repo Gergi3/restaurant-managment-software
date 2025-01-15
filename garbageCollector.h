@@ -1,7 +1,7 @@
 #pragma once
 #include "inventoryItem.h"
 
-void freeMemory(InventoryItem** items);
+void freeMemory(InventoryItem** items, bool freeItems = true);
 
 void freeMemory(InventoryItem* item);
 

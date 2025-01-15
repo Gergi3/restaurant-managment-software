@@ -1,13 +1,16 @@
 #include "garbageCollector.h"
 #include "inventoryItem.h"
 
-void freeMemory(InventoryItem** items)
+void freeMemory(InventoryItem** items, bool freeItems)
 {
+	if (freeItems)
+	{
 	unsigned indx = 0;
 	while (items[indx])
 	{
 		freeMemory(items[indx]);
 		indx++;
+	}
 	}
 
 	delete[] items;
