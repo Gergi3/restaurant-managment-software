@@ -22,20 +22,22 @@ bool validateInventoryItem(const char const* name, unsigned quantity, int*& fail
 		return false;
 	}
 
-	bool isValidName = validateInventoryItemName(name);
-	bool isValidQuantity = validateInventoryItemQuantity(quantity);
+	bool isValidName = validateInventoryItemName(name, failCodes);
+	bool isValidQuantity = validateInventoryItemQuantity(quantity, failCodes);
 
-	if (!isValidName)
+	return isValidName && isValidQuantity;
+}
+
+bool validateInventoryItemName(const char const* name, int*& failCodes)
+{
+	bool isValid = validateInventoryItemName(name);
+
+	if (!isValid)
 	{
 		addFailCode(INVENTORY_CONSTANTS::NAME_FAIL_CODE, failCodes);
 	}
 
-	if (!isValidQuantity)
-	{
-		addFailCode(INVENTORY_CONSTANTS::QUANTITY_FAIL_CODE, failCodes);
-	}
-
-	return isValidName && isValidQuantity;
+	return isValid;
 }
 
 bool validateInventoryItemName(const char const* name)
@@ -44,6 +46,19 @@ bool validateInventoryItemName(const char const* name)
 	return nameLen >= INVENTORY_CONSTANTS::MIN_NAME_LENGTH
 		&& nameLen <= INVENTORY_CONSTANTS::MAX_NAME_LENGTH;
 }
+
+bool validateInventoryItemQuantity(unsigned quantity , int*& failCodes)
+{
+	bool isValid = validateInventoryItemQuantity(quantity);
+
+	if (!isValid)
+	{
+		addFailCode(INVENTORY_CONSTANTS::QUANTITY_FAIL_CODE, failCodes);
+	}
+
+	return isValid;
+}
+
 
 bool validateInventoryItemQuantity(unsigned quantity)
 {
