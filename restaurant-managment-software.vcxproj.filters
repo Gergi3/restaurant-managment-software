@@ -67,6 +67,12 @@
     <ClCompile Include="validator.cpp">
       <Filter>Validators</Filter>
     </ClCompile>
+    <ClCompile Include="menu.cpp">
+      <Filter>Services\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="menuValidator.cpp">
+      <Filter>Validators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="role.h">
@@ -113,6 +119,24 @@
     </ClInclude>
     <ClInclude Include="validator.h">
       <Filter>Validators</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>Services\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="menuItem.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="menuConstants.h">
+      <Filter>Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="menuValidator.h">
+      <Filter>Validators</Filter>
+    </ClInclude>
+    <ClInclude Include="panelConstants.h">
+      <Filter>Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="userConstants.h">
+      <Filter>Constants</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

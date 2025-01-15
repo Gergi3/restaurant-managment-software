@@ -132,6 +132,8 @@
     <ClCompile Include="io.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="garbageCollector.cpp" />
+    <ClCompile Include="menu.cpp" />
+    <ClCompile Include="menuValidator.cpp" />
     <ClCompile Include="panel.cpp" />
     <ClCompile Include="stream.cpp" />
     <ClCompile Include="misc.cpp" />
@@ -145,7 +147,12 @@
     <ClInclude Include="generalConstants.h" />
     <ClInclude Include="inventoryConstants.h" />
     <ClInclude Include="inventoryValidator.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="menuConstants.h" />
+    <ClInclude Include="menuItem.h" />
+    <ClInclude Include="menuValidator.h" />
     <ClInclude Include="panel.h" />
+    <ClInclude Include="panelConstants.h" />
     <ClInclude Include="stream.h" />
     <ClInclude Include="misc.h" />
     <ClInclude Include="inventory.h" />
@@ -155,6 +162,7 @@
     <ClInclude Include="string.h" />
     <ClInclude Include="system.h" />
     <ClInclude Include="user.h" />
+    <ClInclude Include="userConstants.h" />
     <ClInclude Include="validator.h" />
   </ItemGroup>
   <ItemGroup>
