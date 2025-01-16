@@ -8,7 +8,7 @@ namespace MENU_CONSTANTS
 	constexpr unsigned MIN_NAME_LENGTH = 3;
 	constexpr unsigned MAX_NAME_LENGTH = 100;
 
-	constexpr unsigned MIN_PRICE = 0;
+	constexpr unsigned MIN_PRICE = 1;
 	constexpr unsigned MAX_PRICE = 1000; // DEPENDANT ON MAX_PRICE_DIGITS_COUNT
 	constexpr unsigned MAX_PRICE_DIGITS_COUNT = 4; // DEPENDANT ON MAX_PRICE
 
