@@ -10,7 +10,7 @@ namespace GENERAL_CONSTANTS
 	constexpr char const* DATE_FILE_NAME = "date.txt";
 
 	constexpr unsigned FILES_COUNT = 5;
-	const char const* FILE_NAMES[GENERAL_CONSTANTS::FILES_COUNT] =
+	constexpr char const* FILE_NAMES[GENERAL_CONSTANTS::FILES_COUNT] =
 	{
 		ORDER_CONSTANTS::FILE_NAME,
 		MENU_CONSTANTS::FILE_NAME,
