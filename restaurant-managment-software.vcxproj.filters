@@ -29,6 +29,9 @@
     <Filter Include="Constants">
       <UniqueIdentifier>{ff1c8972-2bc4-48be-8904-551d951b1c29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Storage">
+      <UniqueIdentifier>{97f52e87-560b-4e82-b3ed-4d67f2a83e90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -143,9 +146,20 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="dailyRevenues.txt" />
-    <Text Include="inventory.txt" />
-    <Text Include="menu.txt" />
-    <Text Include="orders.txt" />
+    <Text Include="date.txt">
+      <Filter>Storage</Filter>
+    </Text>
+    <Text Include="inventory.txt">
+      <Filter>Storage</Filter>
+    </Text>
+    <Text Include="menu.txt">
+      <Filter>Storage</Filter>
+    </Text>
+    <Text Include="orders.txt">
+      <Filter>Storage</Filter>
+    </Text>
+    <Text Include="revenues.txt">
+      <Filter>Storage</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -167,10 +167,11 @@
     <ClInclude Include="validator.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="dailyRevenues.txt" />
+    <Text Include="date.txt" />
     <Text Include="inventory.txt" />
     <Text Include="menu.txt" />
     <Text Include="orders.txt" />
+    <Text Include="revenues.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
