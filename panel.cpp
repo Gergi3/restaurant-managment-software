@@ -7,6 +7,7 @@
 #include "io.h";
 #include "menu.h"
 #include "menuValidator.h"
+#include "order.h"
 #include "panel.h"
 #include "panelConstants.h"
 #include "role.h"
@@ -231,7 +232,98 @@ void routeToOption(int option)
 		}
 		case 5:
 		{
+			print("-- Orders --", 2);
 
+			OrderItem** items = getAllOrders();
+			if (!items)
+			{
+				print("No orders are currently placed!");
+				break;
+			}
+			displayOrderItems(items);
+			freeMemory(items);
+
+			break;
+		}
+		case 6:
+		{
+			print("-- Orders with count --", 2);
+
+			OrderItem** items = getAllOrders();
+			if (!items)
+			{
+				print("No orders are currently placed!");
+				break;
+			}
+			displayOrderItems(items, true);
+			freeMemory(items);
+
+			break;
+		}
+		case 7:
+		{
+			print("-- Place order -- ", 2);
+
+			MenuItem** items = getAllFromMenu();
+			displayMenuItems(items);
+			freeMemory(items);
+
+			printNewLine();
+
+			print("Name of menu item for order: ", 0);
+			char menuItemName[bufferSize];
+			input(menuItemName);
+
+			bool isAdded = addToOrder(menuItemName, failCodes);
+
+			clearConsole();
+
+			if (!isAdded)
+			{
+				displayFailCodeMessages(failCodes);
+				break;
+			}
+
+			print("Order placed successfully!");
+
+			break;
+		}
+		case 8:
+		{
+			print("-- Cancel order --", 2);
+
+			OrderItem** items = getAllOrders();
+			if (!items)
+			{
+				print("No orders are currently placed!");
+				break;
+			}
+			displayOrderItems(items);
+
+			printNewLine();
+			print("Choose an order from above.");
+
+			print("Order id to remove: ", 0);
+			unsigned id = 0;
+			input(id);
+
+			clearConsole();
+
+			bool isRemoved = removeOrder(id, failCodes, items);
+			if (!isRemoved)
+			{
+				print("Order was not cancelled!");
+			}
+			else
+			{
+				print("Order was cancelled successfully!");
+			}
+
+			displayFailCodeMessages(failCodes);
+
+			freeMemory(items);
+
+			break;
 		}
 		case 9: // Show inventory
 		{
@@ -290,7 +382,7 @@ void routeToOption(int option)
 			break;
 		}
 	}
-	
+
 	freeMemory(failCodes);
 
 	if (option == EXIT_OPTION)
