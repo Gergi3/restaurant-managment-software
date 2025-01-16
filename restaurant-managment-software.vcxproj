@@ -135,6 +135,8 @@
     <ClCompile Include="garbageCollector.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="menuValidator.cpp" />
+    <ClCompile Include="order.cpp" />
+    <ClCompile Include="orderValidator.cpp" />
     <ClCompile Include="panel.cpp" />
     <ClCompile Include="stream.cpp" />
     <ClCompile Include="misc.cpp" />
@@ -154,7 +156,10 @@
     <ClInclude Include="menuConstants.h" />
     <ClInclude Include="menuItem.h" />
     <ClInclude Include="menuValidator.h" />
+    <ClInclude Include="order.h" />
     <ClInclude Include="orderConstants.h" />
+    <ClInclude Include="orderItem.h" />
+    <ClInclude Include="orderValidator.h" />
     <ClInclude Include="panel.h" />
     <ClInclude Include="panelConstants.h" />
     <ClInclude Include="stream.h" />

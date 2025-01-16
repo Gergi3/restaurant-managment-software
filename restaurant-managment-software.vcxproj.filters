@@ -79,6 +79,12 @@
     <ClCompile Include="date.cpp">
       <Filter>Services\Core</Filter>
     </ClCompile>
+    <ClCompile Include="order.cpp">
+      <Filter>Services\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="orderValidator.cpp">
+      <Filter>Validators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="role.h">
@@ -152,6 +158,15 @@
     </ClInclude>
     <ClInclude Include="dateConstants.h">
       <Filter>Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="order.h">
+      <Filter>Services\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="orderItem.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="orderValidator.h">
+      <Filter>Validators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
