@@ -3,35 +3,35 @@
 #include <fstream>
 
 bool addToInventory(
-	const char const* name,
+	const char* const name,
 	unsigned quantity,
 	int*& failCodes);
 
 void addToInventory(
 	std::ofstream& ofs,
-	const char const* name,
+	const char* const name,
 	unsigned quantity);
 
 bool removeFromInventory(
-	const char const* name,
+	const char* const name,
 	int*& failCodes);
 
 bool mutateInventory(
-	const char const* name,
+	const char* const name,
 	unsigned quantity,
 	bool isDelete = false);
 
 bool appendToInventory(
-	const char const* name,
+	const char* const name,
 	unsigned quantity);
 
-bool inventoryItemExists(const char const* name);
+bool inventoryItemExists(const char* const name);
 
 InventoryItem* getFromInventory(
-	const char const* name,
+	const char* const name,
 	InventoryItem** items);
 
-InventoryItem* getFromInventory(const char const* name);
+InventoryItem* getFromInventory(const char* const name);
 
 InventoryItem** getAllFromInventory();
 

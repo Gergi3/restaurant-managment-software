@@ -7,7 +7,7 @@ void input(int& result);
 void input(unsigned& result);
 
 void print(
-	const char const* toPrint,
+	const char* const toPrint,
 	unsigned newLinesCount = 1);
 
 void print(

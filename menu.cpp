@@ -4,7 +4,7 @@
 #include "inventoryItem.h"
 #include "io.h"
 #include "menu.h"
-#include "menuConstants.h";
+#include "menuConstants.h"
 #include "menuItem.h"
 #include "misc.h"
 #include "stream.h"
@@ -78,7 +78,7 @@ bool removeFromMenu(
 }
 
 bool removeFromMenu(
-	const char const* name,
+	const char* const name,
 	int*& failCodes)
 {
 	bool exists = menuItemExists(name);
@@ -118,7 +118,7 @@ bool removeFromMenu(
 	return true;
 }
 
-MenuItem* getFromMenu(const char const* name)
+MenuItem* getFromMenu(const char* const name)
 {
 	std::ifstream ifs(MENU_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ifs))
@@ -147,7 +147,7 @@ MenuItem* getFromMenu(const char const* name)
 	return nullptr;
 }
 
-bool menuItemExists(const char const* name)
+bool menuItemExists(const char* const name)
 {
 	MenuItem* item = getFromMenu(name);
 

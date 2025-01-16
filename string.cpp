@@ -28,7 +28,7 @@ char* toString(unsigned num)
 	char* strNum = new char[len + 1]
 		{};
 
-	for (int i = 0; i < len; i++)
+	for (unsigned i = 0; i < len; i++)
 	{
 		strNum[i] = digitToChar(num % 10);
 		num /= 10;
@@ -49,7 +49,7 @@ void reverseStringMutate(
 	}
 
 	unsigned end = len / 2;
-	for (int i = 0; i < end; i++)
+	for (unsigned i = 0; i < end; i++)
 	{
 		swap(str[i], str[len - i - 1]);
 	}
@@ -91,7 +91,7 @@ bool isDigitChar(char ch)
 	return ch >= '0' && ch <= '9';
 }
 
-int strToNum(const char const* str)
+int strToNum(const char* const str)
 {
 	if (!str)
 	{
@@ -106,7 +106,7 @@ int strToNum(const char const* str)
 	return strToUnsigned(str);
 }
 
-unsigned strToUnsigned(const char const* str)
+unsigned strToUnsigned(const char* str)
 {
 	if (!str)
 	{
@@ -180,7 +180,7 @@ void copyMutate(
 	*dest = '\0';
 }
 
-unsigned length(const char const* str)
+unsigned length(const char* str)
 {
 	if (!str)
 	{
@@ -198,7 +198,7 @@ unsigned length(const char const* str)
 }
 
 unsigned countSuffixChars(
-	const char const* str,
+	const char* str,
 	char ch)
 {
 	if (!str)
@@ -217,7 +217,7 @@ unsigned countSuffixChars(
 }
 
 unsigned countPrefixChars(
-	const char const* str,
+	const char* str,
 	char ch)
 {
 	if (!str)
@@ -310,7 +310,7 @@ char toLower(char ch)
 }
 
 unsigned countCharOccurances(
-	const char const* str,
+	const char* str,
 	char toContain)
 {
 	if (!str)
@@ -329,8 +329,8 @@ unsigned countCharOccurances(
 }
 
 bool contains(
-	const char const* str,
-	const char const* toContain,
+	const char* str,
+	const char* const toContain,
 	bool isCaseSensitive)
 {
 	if (!str || !toContain)
@@ -352,8 +352,8 @@ bool contains(
 }
 
 bool isSuffix(
-	const char const* str,
-	const char const* suffix,
+	const char* str,
+	const char* suffix,
 	bool isCaseSensitive)
 {
 	if (!str || !suffix)

@@ -1,17 +1,17 @@
 #include "date.h"
-#include "garbageCollector.h";
-#include "generalConstants.h";
-#include "inventory.h";
-#include "inventoryItem.h";
+#include "garbageCollector.h"
+#include "generalConstants.h"
+#include "inventory.h"
+#include "inventoryItem.h"
 #include "inventoryValidator.h"
-#include "io.h";
+#include "io.h"
 #include "menu.h"
 #include "menuValidator.h"
 #include "order.h"
 #include "panel.h"
 #include "panelConstants.h"
 #include "role.h"
-#include "string.h";
+#include "string.h"
 #include "validator.h"
 
 void displayPanel(Role role)

@@ -1,5 +1,4 @@
 #pragma once
-#include "inventoryItem.h";
 #include "role.h"
 
 char* toString(unsigned num);
@@ -18,9 +17,9 @@ unsigned charToDigit(char ch);
 
 bool isDigitChar(char ch);
 
-int strToNum(const char const* str);
+int strToNum(const char* const str);
 
-unsigned strToUnsigned(const char const* str);
+unsigned strToUnsigned(const char* const str);
 
 void concatMutate(
 	char* lhs,
@@ -34,14 +33,14 @@ void copyMutate(
 	char* dest,
 	const char* source);
 
-unsigned length(const char const* str);
+unsigned length(const char* const str);
 
 unsigned countSuffixChars(
-	const char const* str,
+	const char* const str,
 	char ch);
 
 unsigned countPrefixChars(
-	const char const* str,
+	const char* const str,
 	char ch);
 
 void shiftLeftMutate(
@@ -63,16 +62,16 @@ void trimMutate(
 char toLower(char ch);
 
 unsigned countCharOccurances(
-	const char const* str,
+	const char* const str,
 	char toContain);
 
 bool contains(
-	const char const* str,
-	const char const* toContain,
+	const char* const str,
+	const char* const toContain,
 	bool isCaseSensitive = true);
 
 bool isSuffix(
-	const char const* str,
-	const char const* suffix,
+	const char* const str,
+	const char* const suffix,
 	bool isCaseSensitive = true);
 

@@ -1,6 +1,6 @@
 #include "generalConstants.h"
 #include "io.h"
-#include "string.h";
+#include "string.h"
 #include <iostream>
 
 const unsigned MAX_CIN_BUFFER_SIZE = GENERAL_CONSTANTS::INPUT_BUFFER_SIZE;
@@ -43,7 +43,7 @@ void forceClearErrorFlagsFromCin()
 }
 
 void print(
-	const char const* toPrint,
+	const char* const toPrint,
 	unsigned newLinesCount)
 {
 	std::cout << toPrint;

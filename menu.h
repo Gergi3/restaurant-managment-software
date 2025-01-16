@@ -17,12 +17,12 @@ bool removeFromMenu(
 	int*& failCodes);
 
 bool removeFromMenu(
-	const char const* name,
+	const char* const name,
 	int*& failCodes);
 
-MenuItem* getFromMenu(const char const* name);
+MenuItem* getFromMenu(const char* const name);
 
-bool menuItemExists(const char const* name);
+bool menuItemExists(const char* const name);
 
 void setItemValues(
 	std::ifstream& ifs,

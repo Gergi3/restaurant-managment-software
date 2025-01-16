@@ -7,7 +7,7 @@ bool validateOrderItem(
 	int*& failCodes);
 
 bool validateOrderItemMenuItem(
-	const char const* name,
+	const char* const name,
 	int*& failCodes);
 
 void displayOrderItemFailCodeMessage(int failCode);

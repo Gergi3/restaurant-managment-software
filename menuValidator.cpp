@@ -5,7 +5,7 @@
 #include "validator.h"
 
 bool validateMenuItem(
-	const char const* name,
+	const char* const name,
 	unsigned price,
 	unsigned ingredientsCount,
 	int*& failCodes)
@@ -17,7 +17,7 @@ bool validateMenuItem(
 	return isValidCount && isValidName && isValidPrice;
 }
 
-bool validateMenuItemName(const char const* name)
+bool validateMenuItemName(const char* const name)
 {
 	unsigned nameLen = length(name);
 	return nameLen >= MENU_CONSTANTS::MIN_NAME_LENGTH
@@ -25,7 +25,7 @@ bool validateMenuItemName(const char const* name)
 }
 
 bool validateMenuItemName(
-	const char const* name,
+	const char* const name,
 	int*& failCodes)
 {
 	bool isValid = validateMenuItemName(name);

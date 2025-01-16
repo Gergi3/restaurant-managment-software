@@ -1,8 +1,8 @@
 #include "garbageCollector.h"
-#include "generalConstants.h";
+#include "generalConstants.h"
 #include "io.h"
-#include "menu.h";
-#include "menuConstants.h";
+#include "menu.h"
+#include "menuConstants.h"
 #include "order.h"
 #include "orderConstants.h"
 #include "orderItem.h"
@@ -13,7 +13,7 @@
 #include <fstream>
 
 bool addToOrder(
-	const char const* menuItemName,
+	const char* const menuItemName,
 	int*& failCodes)
 {
 	bool isValidMenuItem = validateOrderItemMenuItem(menuItemName, failCodes);
@@ -28,12 +28,12 @@ bool addToOrder(
 void addToOrder(
 	std::ofstream& ofs,
 	unsigned id,
-	const char const* menuItemName)
+	const char* const menuItemName)
 {
 	ofs << id << ';' << menuItemName << std::endl;
 }
 
-bool appendToOrder(const char const* menuItemName)
+bool appendToOrder(const char* const menuItemName)
 {
 	unsigned nextId = getAndIncrementNextId();
 
@@ -245,10 +245,10 @@ void sortOrderItems(OrderItem** items)
 	unsigned count = getItemsCount(items);
 
 	unsigned end = count - 1;
-	for (int i = 0; i < end; ++i)
+	for (unsigned i = 0; i < end; i++)
 	{
 		unsigned innerEnd = count - i - 1;
-		for (int j = 0; j < innerEnd; ++j)
+		for (unsigned j = 0; j < innerEnd; j++)
 		{
 			char* currentMenuItemName = items[j]->menuItemName;
 			char* nextMenuItemName = items[j + 1]->menuItemName;

@@ -1,7 +1,7 @@
 #include "generalConstants.h"
 #include "inventoryItem.h"
 #include "inventoryValidator.h"
-#include "io.h";
+#include "io.h"
 #include "string.h"
 #include "validator.h"
 
@@ -18,7 +18,7 @@ bool validateInventoryItem(
 }
 
 bool validateInventoryItem(
-	const char const* name,
+	const char* const name,
 	unsigned quantity,
 	int*& failCodes)
 {
@@ -34,7 +34,7 @@ bool validateInventoryItem(
 }
 
 bool validateInventoryItemName(
-	const char const* name,
+	const char* const name,
 	int*& failCodes)
 {
 	bool isValid = validateInventoryItemName(name);
@@ -47,7 +47,7 @@ bool validateInventoryItemName(
 	return isValid;
 }
 
-bool validateInventoryItemName(const char const* name)
+bool validateInventoryItemName(const char* const name)
 {
 	unsigned nameLen = length(name);
 	return nameLen >= INVENTORY_CONSTANTS::MIN_NAME_LENGTH

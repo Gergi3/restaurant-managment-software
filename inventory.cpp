@@ -1,15 +1,18 @@
 #include "garbageCollector.h"
-#include "inventory.h";
+#include "inventory.h"
+#include "inventoryConstants.h"
 #include "inventoryItem.h"
 #include "inventoryValidator.h"
 #include "io.h"
 #include "stream.h"
-#include "string.h";
 #include "validator.h"
+#include <cstring>
 #include <fstream>
+#include <iosfwd>
+#include <ostream>
 
 bool addToInventory(
-	const char const* name,
+	const char* const name,
 	unsigned quantity,
 	int*& failCodes)
 {
@@ -30,14 +33,14 @@ bool addToInventory(
 
 void addToInventory(
 	std::ofstream& ofs,
-	const char const* name,
+	const char* const name,
 	unsigned quantity)
 {
 	ofs << name << ';' << quantity << std::endl;
 }
 
 bool removeFromInventory(
-	const char const* name,
+	const char* const name,
 	int*& failCodes)
 {
 	bool exists = inventoryItemExists(name);
@@ -51,7 +54,7 @@ bool removeFromInventory(
 }
 
 bool mutateInventory(
-	const char const* name,
+	const char* const name,
 	unsigned quantity,
 	bool isDelete)
 {
@@ -96,7 +99,7 @@ bool mutateInventory(
 }
 
 bool appendToInventory(
-	const char const* name,
+	const char* const name,
 	unsigned quantity)
 {
 	std::ofstream ofs(INVENTORY_CONSTANTS::FILE_NAME, std::ios::app);
@@ -113,7 +116,7 @@ bool appendToInventory(
 }
 
 InventoryItem* getFromInventory(
-	const char const* name,
+	const char* const name,
 	InventoryItem** items)
 {
 	if (!items)
@@ -138,7 +141,7 @@ InventoryItem* getFromInventory(
 	return nullptr;
 }
 
-InventoryItem* getFromInventory(const char const* name)
+InventoryItem* getFromInventory(const char* const name)
 {
 	std::ifstream ifs(INVENTORY_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ifs))
@@ -168,7 +171,7 @@ InventoryItem* getFromInventory(const char const* name)
 	return nullptr;
 }
 
-bool inventoryItemExists(const char const* name)
+bool inventoryItemExists(const char* const name)
 {
 	InventoryItem* item = getFromInventory(name);
 	if (!item)

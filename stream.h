@@ -16,4 +16,4 @@ unsigned getCharCountCurrentLine(
 unsigned getCharCount(
 	std::ifstream& ifs,
 	char ch,
-	int endPos);
+	std::streamoff endPos);

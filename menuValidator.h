@@ -1,15 +1,15 @@
 #pragma once
 
 bool validateMenuItem(
-	const char const* name,
+	const char* const name,
 	unsigned price,
 	unsigned ingredientsCount,
 	int*& failCodes);
 
-bool validateMenuItemName(const char const* name);
+bool validateMenuItemName(const char* const name);
 
 bool validateMenuItemName(
-	const char const* name,
+	const char* const name,
 	int*& failCodes);
 
 bool validateMenuItemPrice(unsigned price);

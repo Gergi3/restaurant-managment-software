@@ -54,7 +54,7 @@ Role getRole()
 
 bool isValidRoleString(
 	const char* str,
-	const char const* expected,
+	const char* const expected,
 	char expectedShort)
 {
 	return contains(str, expected, false)

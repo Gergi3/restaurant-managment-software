@@ -2,15 +2,15 @@
 #include "orderItem.h"
 
 bool addToOrder(
-	const char const* menuItemName,
+	const char* const menuItemName,
 	int*& failCodes);
 
 void addToOrder(
 	std::ofstream& ofs,
 	unsigned id,
-	const char const* menuItemName);
+	const char* const menuItemName);
 
-bool appendToOrder(const char const* menuItemName);
+bool appendToOrder(const char* const menuItemName);
 
 OrderItem** getAllOrders();
 

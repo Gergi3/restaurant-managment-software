@@ -1,4 +1,4 @@
-#include "io.h";
+#include "io.h"
 #include "panel.h"
 #include "role.h"
 #include "system.h"

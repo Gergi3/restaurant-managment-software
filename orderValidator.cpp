@@ -20,7 +20,7 @@ bool validateOrderItem(
 }
 
 bool validateOrderItemMenuItem(
-	const char const* name,
+	const char* const name,
 	int*& failCodes)
 {
 	if (!name)

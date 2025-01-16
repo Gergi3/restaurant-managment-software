@@ -4,6 +4,6 @@
 Role getRole();
 
 bool isValidRoleString(
-	const char const* str,
-	const char const* expected,
+	const char* const str,
+	const char* const expected,
 	char expectedShort);

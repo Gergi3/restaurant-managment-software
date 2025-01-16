@@ -27,10 +27,10 @@ unsigned getLinesCount(std::ifstream& ifs)
 		return 0;
 	}
 
-	int startingPos = ifs.tellg();
+	std::streamoff startingPos = ifs.tellg();
 	ifs.seekg(startingPos, std::ios::end);
 
-	int endPos = ifs.tellg();
+	std::streamoff endPos = ifs.tellg();
 	ifs.clear();
 	ifs.seekg(startingPos);
 
@@ -46,12 +46,12 @@ unsigned getCharCountCurrentLine(
 		return 0;
 	}
 
-	int startingPos = ifs.tellg();
+	std::streamoff startingPos = ifs.tellg();
 
 	char emptyBuffer[MAX_BUFFER_SIZE]{};
 	ifs.getline(emptyBuffer, MAX_BUFFER_SIZE, '\n');
 
-	int endPos = ifs.tellg();
+	std::streamoff endPos = ifs.tellg();
 	endPos--;
 
 	ifs.clear();
@@ -63,14 +63,14 @@ unsigned getCharCountCurrentLine(
 unsigned getCharCount(
 	std::ifstream& ifs,
 	char ch,
-	int endPos)
+	std::streamoff endPos)
 {
 	if (!isValidStream(ifs))
 	{
 		return 0;
 	}
 
-	int startingPos = ifs.tellg();
+	std::streamoff startingPos = ifs.tellg();
 
 	char emptyBuffer[MAX_BUFFER_SIZE]{};
 	ifs.read(&emptyBuffer[0], endPos - startingPos);

@@ -1,5 +1,6 @@
 #pragma once
-#include "menuConstants.h";
+
+#include "menuConstants.h"
 
 struct OrderItem
 {
