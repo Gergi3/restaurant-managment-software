@@ -3,6 +3,8 @@
 #include "inventoryValidator.h"
 #include "menuConstants.h"
 #include "menuValidator.h"
+#include "orderConstants.h"
+#include "orderValidator.h"
 
 void displayFailCodeMessages(int*& failCodes)
 {
@@ -23,7 +25,12 @@ void displayFailCodeMessages(int*& failCodes)
 		else if (failCode >= MENU_CONSTANTS::FAIL_CODE_START
 			&& failCode <= MENU_CONSTANTS::FAIL_CODE_END)
 		{
-			displayMenuItemFailCodeMessages(failCode);
+			displayMenuItemFailCodeMessage(failCode);
+		}
+		else if (failCode >= ORDER_CONSTANTS::FAIL_CODE_START
+			&& failCode <= ORDER_CONSTANTS::FAIL_CODE_END)
+		{
+			displayOrderItemFailCodeMessage(failCode);
 		}
 	}
 }
