@@ -2,14 +2,6 @@
 #include "system.h"
 #include <fstream>
 
-const char const* FILE_NAMES[GENERAL_CONSTANTS::FILES_COUNT] =
-{
-	"orders.txt",
-	"menu.txt",
-	"inventory.txt",
-	"dailyRevenues.txt"
-};
-
 bool initializeSystem()
 {
 	bool systemFilesAreInitialized = initializeSystemFiles();
@@ -23,9 +15,9 @@ bool initializeSystemFiles()
 
 	for (size_t i = 0; i < GENERAL_CONSTANTS::FILES_COUNT; i++)
 	{
-		const char const* fileName = FILE_NAMES[i];
+		const char const* fileName = GENERAL_CONSTANTS::FILE_NAMES[i];
 		writer.open(fileName, std::ios::app);
-		if (!writer || !writer.is_open())
+		if (!writer || !writer.is_open() || !writer.good())
 		{
 			return false;
 		}

@@ -151,6 +151,7 @@
     <ClInclude Include="menuConstants.h" />
     <ClInclude Include="menuItem.h" />
     <ClInclude Include="menuValidator.h" />
+    <ClInclude Include="orderConstants.h" />
     <ClInclude Include="panel.h" />
     <ClInclude Include="panelConstants.h" />
     <ClInclude Include="stream.h" />

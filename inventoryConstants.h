@@ -2,6 +2,8 @@
 
 namespace INVENTORY_CONSTANTS
 {
+	constexpr char const* FILE_NAME = "inventory.txt";
+
 	constexpr unsigned MAX_NAME_LENGTH = 100;
 	constexpr unsigned MIN_NAME_LENGTH = 2;
 

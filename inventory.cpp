@@ -56,7 +56,7 @@ void mutateInventory(const char const* name, unsigned quantity, bool isDelete)
 {
 	InventoryItem** items = getAllFromInventory();
 
-	std::ofstream ofs("inventory.txt");
+	std::ofstream ofs(INVENTORY_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ofs))
 	{
 		return;
@@ -88,7 +88,7 @@ void mutateInventory(const char const* name, unsigned quantity, bool isDelete)
 
 void appendToInventory(const char const* name, unsigned quantity)
 {
-	std::ofstream ofs("inventory.txt", std::ios::app);
+	std::ofstream ofs(INVENTORY_CONSTANTS::FILE_NAME, std::ios::app);
 	if (!isValidStream(ofs))
 	{
 		return;
@@ -120,7 +120,7 @@ InventoryItem* getFromInventory(const char const* name, InventoryItem** items)
 
 InventoryItem* getFromInventory(const char const* name)
 {
-	std::ifstream ifs("inventory.txt");
+	std::ifstream ifs(INVENTORY_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ifs))
 	{
 		return nullptr;
@@ -169,7 +169,7 @@ bool inventoryItemExists(const char const* name)
 
 InventoryItem** getAllFromInventory()
 {
-	std::ifstream ifs("inventory.txt");
+	std::ifstream ifs(INVENTORY_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ifs))
 	{
 		return nullptr;

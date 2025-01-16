@@ -3,6 +3,8 @@
 
 namespace MENU_CONSTANTS
 {
+	constexpr char const* FILE_NAME = "menu.txt";
+
 	constexpr unsigned MIN_NAME_LENGTH = 3;
 	constexpr unsigned MAX_NAME_LENGTH = 100;
 

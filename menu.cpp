@@ -55,7 +55,7 @@ void addToMenu(std::ofstream& ofs, MenuItem* item)
 
 void appendToMenu(MenuItem* item)
 {
-	std::ofstream ofs("menu.txt", std::ios::app);
+	std::ofstream ofs(INVENTORY_CONSTANTS::FILE_NAME, std::ios::app);
 	if (!isValidStream(ofs))
 	{
 		return;
@@ -84,7 +84,7 @@ bool removeFromMenu(const char const* name, int*& failCodes)
 
 	MenuItem** items = getAllFromMenu();
 
-	std::ofstream ofs("menu.txt");
+	std::ofstream ofs(MENU_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ofs))
 	{
 		return false;
@@ -108,7 +108,7 @@ bool removeFromMenu(const char const* name, int*& failCodes)
 
 MenuItem* getFromMenu(const char const* name)
 {
-	std::ifstream ifs("menu.txt");
+	std::ifstream ifs(INVENTORY_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ifs))
 	{
 		return nullptr;
@@ -161,7 +161,7 @@ bool menuItemExists(const char const* name)
 
 MenuItem** getAllFromMenu()
 {
-	std::ifstream ifs("menu.txt");
+	std::ifstream ifs(INVENTORY_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ifs))
 	{
 		return nullptr;

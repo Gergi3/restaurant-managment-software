@@ -138,6 +138,9 @@
     <ClInclude Include="userConstants.h">
       <Filter>Constants</Filter>
     </ClInclude>
+    <ClInclude Include="orderConstants.h">
+      <Filter>Constants</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="dailyRevenues.txt" />
