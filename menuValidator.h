@@ -14,4 +14,4 @@ bool validateMenuItemIngredientsCount(unsigned count);
 
 bool validateMenuItemIngredientsCount(unsigned count, int*& failCodes);
 
-void displayMenuItemFailCodeMessages(int failCode);
+void displayMenuItemFailCodeMessage(int failCode);

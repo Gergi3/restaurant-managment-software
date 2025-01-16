@@ -66,7 +66,7 @@ bool validateMenuItemIngredientsCount(unsigned count, int*& failCodes)
 	return isValid;
 }
 
-void displayMenuItemFailCodeMessages(int failCode)
+void displayMenuItemFailCodeMessage(int failCode)
 {
 	switch (failCode)
 	{
