@@ -1,3 +1,4 @@
+#include "date.h";
 #include "generalConstants.h"
 #include "system.h"
 #include <fstream>
@@ -5,23 +6,25 @@
 bool initializeSystem()
 {
 	bool systemFilesAreInitialized = initializeSystemFiles();
+	bool dateIsManaged = addDate();
 
-	return systemFilesAreInitialized;
+	return systemFilesAreInitialized && dateIsManaged;
 }
+
 
 bool initializeSystemFiles()
 {
-	std::ofstream writer;
+	std::ofstream ofs;
 
 	for (size_t i = 0; i < GENERAL_CONSTANTS::FILES_COUNT; i++)
 	{
 		const char const* fileName = GENERAL_CONSTANTS::FILE_NAMES[i];
-		writer.open(fileName, std::ios::app);
-		if (!writer || !writer.is_open() || !writer.good())
+		ofs.open(fileName, std::ios::app);
+		if (!ofs || !ofs.is_open() || !ofs.good())
 		{
 			return false;
 		}
-		writer.close();
+		ofs.close();
 	}
 
 	return true;

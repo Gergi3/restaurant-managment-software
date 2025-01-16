@@ -76,6 +76,9 @@
     <ClCompile Include="menuValidator.cpp">
       <Filter>Validators</Filter>
     </ClCompile>
+    <ClCompile Include="date.cpp">
+      <Filter>Services\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="role.h">
@@ -142,6 +145,12 @@
       <Filter>Constants</Filter>
     </ClInclude>
     <ClInclude Include="orderConstants.h">
+      <Filter>Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="date.h">
+      <Filter>Services\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="dateConstants.h">
       <Filter>Constants</Filter>
     </ClInclude>
   </ItemGroup>

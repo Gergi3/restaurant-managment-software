@@ -1,10 +1,10 @@
+#include "date.h"
 #include "garbageCollector.h";
 #include "generalConstants.h";
 #include "inventory.h";
 #include "inventoryItem.h";
 #include "inventoryValidator.h"
 #include "io.h";
-#include "menu.h"
 #include "menu.h"
 #include "menuValidator.h"
 #include "panel.h"
@@ -15,14 +15,15 @@
 
 void displayPanel(Role role)
 {
+	displayDate();
 	print("1. Exit");
 	print("2. Show menu");
 	print("3. Add to menu");
 	print("4. Remove from menu");
-	print("5. -");
-	print("6. -");
-	print("7. -");
-	print("8. -");
+	print("5. Show orders");
+	print("6. Show orders with count");
+	print("7. Place order");
+	print("8. Cancel order");
 
 	if (role != Role::Manager)
 	{
@@ -69,6 +70,13 @@ void routeToOption(int option)
 
 	switch (option)
 	{
+		case EXIT_OPTION:
+		{
+			incrementDate();
+			displayExitMessage();
+
+			break;
+		}
 		case 2:
 		{
 			print("-- Menu items --");
@@ -116,7 +124,7 @@ void routeToOption(int option)
 			}
 
 			MenuItem* menuItem = new MenuItem;
-			
+
 			copyMutate(menuItem->name, menuItemName);
 			menuItem->price = price;
 			InventoryItem** chosenIngredients = new InventoryItem * [ingredientsCount + 1]
@@ -185,10 +193,10 @@ void routeToOption(int option)
 
 				printNewLines(1);
 			}
-			
+
 			addToMenu(menuItem, failCodes);
 			print("Menu item added succesfully!");
-			
+
 			freeMemory(ingredients);
 			freeMemory(chosenIngredients, false);
 			freeMemory(menuItem, false);
@@ -220,6 +228,10 @@ void routeToOption(int option)
 			displayFailCodeMessages(failCodes);
 
 			break;
+		}
+		case 5:
+		{
+
 		}
 		case 9: // Show inventory
 		{
@@ -262,7 +274,7 @@ void routeToOption(int option)
 			displayInventoryItems(items);
 			freeMemory(items);
 			printNewLine();
-			
+
 			print("Choose an item from above to remove.");
 			print("Name for the inventory item: ", 0);
 			input(name);
@@ -278,8 +290,13 @@ void routeToOption(int option)
 			break;
 		}
 	}
-
+	
 	freeMemory(failCodes);
+
+	if (option == EXIT_OPTION)
+	{
+		return;
+	}
 
 	printNewLine();
 	system("pause");

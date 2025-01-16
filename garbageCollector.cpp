@@ -30,6 +30,12 @@ void freeMemory(int* nums)
 	nums = nullptr;
 }
 
+void freeMemory(char* str)
+{
+	delete str;
+	str = nullptr;
+}
+
 void freeMemory(MenuItem* item, bool freeIngredients)
 {
 	if (freeIngredients)

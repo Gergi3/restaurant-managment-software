@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="date.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="inventoryValidator.cpp" />
     <ClCompile Include="io.cpp" />
@@ -143,6 +144,8 @@
     <ClCompile Include="validator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="date.h" />
+    <ClInclude Include="dateConstants.h" />
     <ClInclude Include="garbageCollector.h" />
     <ClInclude Include="generalConstants.h" />
     <ClInclude Include="inventoryConstants.h" />

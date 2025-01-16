@@ -1,5 +1,5 @@
 #pragma once
-
+#include "dateConstants.h"
 #include "inventoryConstants.h"
 #include "menuConstants.h"
 #include "orderConstants.h"
@@ -7,7 +7,6 @@
 namespace GENERAL_CONSTANTS
 {
 	constexpr char const* REVENUE_FILE_NAME = "revenues.txt";
-	constexpr char const* DATE_FILE_NAME = "date.txt";
 
 	constexpr unsigned FILES_COUNT = 5;
 	constexpr char const* FILE_NAMES[GENERAL_CONSTANTS::FILES_COUNT] =
@@ -16,8 +15,9 @@ namespace GENERAL_CONSTANTS
 		MENU_CONSTANTS::FILE_NAME,
 		INVENTORY_CONSTANTS::FILE_NAME,
 		REVENUE_FILE_NAME,
-		DATE_FILE_NAME
+		DATE_CONSTANTS::FILE_NAME
 	};
+
 
 	constexpr unsigned FAIL_CODES_LENGTH = 10;
 	constexpr unsigned EMPTY_CODE = 0;
