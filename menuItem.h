@@ -4,7 +4,7 @@
 
 struct MenuItem
 {
-	char name[MENU_CONSTANTS::MAX_NAME_LENGTH + 1];
+	char name[MENU_CONSTANTS::MAX_NAME_LENGTH + 1]{};
 	unsigned price = 0;
 	InventoryItem** ingredients = nullptr;
 };

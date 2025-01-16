@@ -5,7 +5,9 @@
 #include "string.h"
 #include "validator.h"
 
-bool validateInventoryItem(InventoryItem item, int*& failCodes)
+bool validateInventoryItem(
+	InventoryItem item,
+	int*& failCodes)
 {
 	if (!failCodes)
 	{
@@ -15,7 +17,10 @@ bool validateInventoryItem(InventoryItem item, int*& failCodes)
 	return validateInventoryItem(item.name, item.quantity, failCodes);
 }
 
-bool validateInventoryItem(const char const* name, unsigned quantity, int*& failCodes)
+bool validateInventoryItem(
+	const char const* name,
+	unsigned quantity,
+	int*& failCodes)
 {
 	if (!failCodes)
 	{
@@ -28,7 +33,9 @@ bool validateInventoryItem(const char const* name, unsigned quantity, int*& fail
 	return isValidName && isValidQuantity;
 }
 
-bool validateInventoryItemName(const char const* name, int*& failCodes)
+bool validateInventoryItemName(
+	const char const* name,
+	int*& failCodes)
 {
 	bool isValid = validateInventoryItemName(name);
 
@@ -47,7 +54,9 @@ bool validateInventoryItemName(const char const* name)
 		&& nameLen <= INVENTORY_CONSTANTS::MAX_NAME_LENGTH;
 }
 
-bool validateInventoryItemQuantity(unsigned quantity , int*& failCodes)
+bool validateInventoryItemQuantity(
+	unsigned quantity,
+	int*& failCodes)
 {
 	bool isValid = validateInventoryItemQuantity(quantity);
 

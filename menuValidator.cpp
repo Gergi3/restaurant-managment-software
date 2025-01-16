@@ -4,7 +4,11 @@
 #include "string.h"
 #include "validator.h"
 
-bool validateMenuItem(const char const* name, unsigned price, unsigned ingredientsCount, int*& failCodes)
+bool validateMenuItem(
+	const char const* name,
+	unsigned price,
+	unsigned ingredientsCount,
+	int*& failCodes)
 {
 	bool isValidName = validateMenuItemName(name, failCodes);
 	bool isValidPrice = validateMenuItemPrice(price, failCodes);
@@ -20,7 +24,9 @@ bool validateMenuItemName(const char const* name)
 		&& nameLen <= MENU_CONSTANTS::MAX_NAME_LENGTH;
 }
 
-bool validateMenuItemName(const char const* name, int*& failCodes)
+bool validateMenuItemName(
+	const char const* name,
+	int*& failCodes)
 {
 	bool isValid = validateMenuItemName(name);
 	if (!isValid)
@@ -37,7 +43,9 @@ bool validateMenuItemPrice(unsigned price)
 		&& price <= MENU_CONSTANTS::MAX_PRICE;
 }
 
-bool validateMenuItemPrice(unsigned price, int*& failCodes)
+bool validateMenuItemPrice(
+	unsigned price,
+	int*& failCodes)
 {
 	bool isValid = validateMenuItemPrice(price);
 
@@ -55,7 +63,9 @@ bool validateMenuItemIngredientsCount(unsigned count)
 		&& count <= MENU_CONSTANTS::MAX_INGREDIENTS_COUNT;
 }
 
-bool validateMenuItemIngredientsCount(unsigned count, int*& failCodes) 
+bool validateMenuItemIngredientsCount(
+	unsigned count,
+	int*& failCodes)
 {
 	bool isValid = validateMenuItemIngredientsCount(count);
 	if (!isValid)
@@ -98,15 +108,16 @@ void displayMenuItemFailCodeMessage(int failCode)
 
 			break;
 		}
-		case MENU_CONSTANTS::ALREADY_EXISTS_FAIL_CODE:
+		case MENU_CONSTANTS::ADD_FAIL_CODE:
 		{
-			print(MENU_CONSTANTS::ALREADY_EXISTS_FAIL_MESSAGE);
+			print(MENU_CONSTANTS::ADD_FAIL_MESSAGE);
 
 			break;
 		}
-		case MENU_CONSTANTS::NOT_FOUND_FAIL_CODE:
+		case MENU_CONSTANTS::REMOVAL_FAIL_CODE:
 		{
-			print(MENU_CONSTANTS::NOT_FOUND_FAIL_MESSAGE);
+			print(MENU_CONSTANTS::REMOVAL_FAIL_MESSAGE);
+
 			break;
 		}
 	}

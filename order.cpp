@@ -1,3 +1,4 @@
+#include "garbageCollector.h"
 #include "generalConstants.h";
 #include "io.h"
 #include "menu.h";
@@ -8,24 +9,14 @@
 #include "orderValidator.h"
 #include "stream.h"
 #include "string.h"
-#include <fstream>
-#include "garbageCollector.h"
 #include "validator.h"
+#include <fstream>
 
-bool addToOrder(OrderItem* item, int*& failCodes)
-{
-	if (!item)
-	{
-		return false;
-	}
-
-	return addToOrder(item->menuItemName, failCodes);
-}
-
-bool addToOrder(const char const* menuItemName, int*& failCodes)
+bool addToOrder(
+	const char const* menuItemName,
+	int*& failCodes)
 {
 	bool isValidMenuItem = validateOrderItemMenuItem(menuItemName, failCodes);
-
 	if (!isValidMenuItem)
 	{
 		return false;
@@ -34,7 +25,10 @@ bool addToOrder(const char const* menuItemName, int*& failCodes)
 	return appendToOrder(menuItemName);
 }
 
-void addToOrder(std::ofstream& ofs, unsigned id, const char const* menuItemName)
+void addToOrder(
+	std::ofstream& ofs,
+	unsigned id,
+	const char const* menuItemName)
 {
 	ofs << id << ';' << menuItemName << std::endl;
 }
@@ -56,10 +50,12 @@ bool appendToOrder(const char const* menuItemName)
 	return true;
 }
 
-bool removeOrder(unsigned id, int*& failCodes, OrderItem** items)
+bool removeOrder(
+	unsigned id,
+	int*& failCodes,
+	OrderItem** items)
 {
 	bool exists = orderExists(id);
-
 	if (!exists)
 	{
 		addFailCode(ORDER_CONSTANTS::REMOVAL_FAIL_CODE, failCodes);
@@ -70,6 +66,7 @@ bool removeOrder(unsigned id, int*& failCodes, OrderItem** items)
 	{
 		items = getAllOrders();
 	}
+
 	unsigned currentId = getCurrentId();
 
 	std::ofstream ofs(ORDER_CONSTANTS::FILE_NAME);
@@ -83,10 +80,11 @@ bool removeOrder(unsigned id, int*& failCodes, OrderItem** items)
 	unsigned indx = 0;
 	while (items[indx])
 	{
-		OrderItem* item = items[indx];
-		if (item->id != id)
+		OrderItem* order = items[indx];
+
+		if (order->id != id)
 		{
-			addToOrder(ofs, item->id, item->menuItemName);
+			addToOrder(ofs, order->id, order->menuItemName);
 		}
 
 		indx++;
@@ -95,7 +93,6 @@ bool removeOrder(unsigned id, int*& failCodes, OrderItem** items)
 	ofs.close();
 
 	return true;
-
 }
 
 OrderItem* getOrder(unsigned id)
@@ -107,19 +104,20 @@ OrderItem* getOrder(unsigned id)
 	}
 
 	ifs.ignore(GENERAL_CONSTANTS::INPUT_BUFFER_SIZE, '\n');
-	if (!ifs.good())
+	ifs.peek();
+	if (!ifs.good() || ifs.eof())
 	{
 		return nullptr;
 	}
 
 	while (!ifs.eof() && ifs.good())
 	{
-		OrderItem* item = new OrderItem;
-		setItemValues(ifs, item);
+		OrderItem* order = new OrderItem;
+		setItemValues(ifs, order);
 
-		if (item->id == id)
+		if (order->id == id)
 		{
-			return item;
+			return order;
 		}
 
 		ifs.peek();
@@ -132,14 +130,14 @@ OrderItem* getOrder(unsigned id)
 
 bool orderExists(unsigned id)
 {
-	OrderItem* item = getOrder(id);
+	OrderItem* order = getOrder(id);
 
-	if (!item)
+	if (!order)
 	{
 		return false;
 	}
 
-	freeMemory(item);
+	freeMemory(order);
 	return true;
 }
 
@@ -159,23 +157,30 @@ OrderItem** getAllOrders()
 	}
 
 	unsigned itemsCount = getLinesCount(ifs);
-	OrderItem** items = new OrderItem * [itemsCount + 1];
+	if (itemsCount == 0)
+	{
+		return nullptr;
+	}
 
-	unsigned itemsIndx = 0;
-	while (itemsIndx < itemsCount)
+	OrderItem** orders = new OrderItem * [itemsCount + 1];
+
+	unsigned indx = 0;
+	while (indx < itemsCount)
 	{
 		OrderItem* item = new OrderItem;
 		setItemValues(ifs, item);
 
-		items[itemsIndx++] = item;
+		orders[indx++] = item;
 	}
-	items[itemsIndx] = nullptr;
+	orders[indx] = nullptr;
 
-	return items;
+	return orders;
 }
 
 
-void setItemValues(std::ifstream& ifs, OrderItem*& item)
+void setItemValues(
+	std::ifstream& ifs,
+	OrderItem*& item)
 {
 	char idBuffer[GENERAL_CONSTANTS::MAX_UINT_DIGITS_COUNT + 1]{};
 	ifs.getline(idBuffer, GENERAL_CONSTANTS::MAX_UINT_DIGITS_COUNT + 1, ';');
@@ -226,11 +231,9 @@ unsigned getCurrentId()
 unsigned getItemsCount(OrderItem** items)
 {
 	unsigned count = 0;
-	unsigned indx = 0;
 
-	while (items[indx])
+	while (items[count])
 	{
-		indx++;
 		count++;
 	}
 
@@ -241,11 +244,15 @@ void sortOrderItems(OrderItem** items)
 {
 	unsigned count = getItemsCount(items);
 
-	for (int i = 0; i < count - 1; ++i)
+	unsigned end = count - 1;
+	for (int i = 0; i < end; ++i)
 	{
-		for (int j = 0; j < count - i - 1; ++j)
+		unsigned innerEnd = count - i - 1;
+		for (int j = 0; j < innerEnd; ++j)
 		{
-			if (strcmp(items[j]->menuItemName, items[j + 1]->menuItemName) > 0)
+			char* currentMenuItemName = items[j]->menuItemName;
+			char* nextMenuItemName = items[j + 1]->menuItemName;
+			if (strcmp(currentMenuItemName, nextMenuItemName) > 0)
 			{
 				OrderItem* temp = items[j];
 				items[j] = items[j + 1];
@@ -255,7 +262,9 @@ void sortOrderItems(OrderItem** items)
 	}
 }
 
-void displayOrderItems(OrderItem** items, bool withCount)
+void displayOrderItems(
+	OrderItem** items,
+	bool withCount)
 {
 	if (!items)
 	{
@@ -268,18 +277,14 @@ void displayOrderItems(OrderItem** items, bool withCount)
 	}
 
 	unsigned count = 1;
-
 	unsigned indx = 0;
 	while (items[indx])
 	{
 		OrderItem* item = items[indx];
 		OrderItem* nextItem = items[indx + 1];
 
-		bool nextItemIsSameAsCurrent = nextItem
-			&& !strcmp(item->menuItemName, nextItem->menuItemName);
-
-		bool shouldIncrementCount = withCount && nextItem && nextItemIsSameAsCurrent;
-
+		bool nextItemIsSame = nextItem && !strcmp(item->menuItemName, nextItem->menuItemName);
+		bool shouldIncrementCount = withCount && nextItem && nextItemIsSame;
 		if (shouldIncrementCount)
 		{
 			count++;
@@ -304,7 +309,9 @@ void displayOrderItems(OrderItem** items, bool withCount)
 	}
 }
 
-void displayOrderItem(OrderItem* item, bool withCount)
+void displayOrderItem(
+	OrderItem* item,
+	bool withCount)
 {
 	if (!item)
 	{
@@ -312,13 +319,13 @@ void displayOrderItem(OrderItem* item, bool withCount)
 	}
 
 	print(item->menuItemName, 0);
-	
+
 	if (withCount)
 	{
 		printNewLine();
 		return;
 	}
-	
+
 	print(" (ID: ", 0);
 	print(item->id, 0);
 	print(")");

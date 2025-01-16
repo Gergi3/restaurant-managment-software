@@ -8,64 +8,69 @@
 #include "validator.h"
 #include <fstream>
 
-bool addToInventory(InventoryItem item, int*& failCodes)
-{
-	return addToInventory(item.name, item.quantity, failCodes);
-}
-
-bool addToInventory(const char const* name, unsigned quantity, int*& failCodes)
+bool addToInventory(
+	const char const* name,
+	unsigned quantity,
+	int*& failCodes)
 {
 	bool isValid = validateInventoryItem(name, quantity, failCodes);
-
 	if (!isValid)
 	{
 		return false;
 	}
 
-	inventoryItemExists(name)
-		? mutateInventory(name, quantity)
-		: appendToInventory(name, quantity);
+	bool exists = inventoryItemExists(name);
+	if (exists)
+	{
+		return mutateInventory(name, quantity);
+	}
 
-	return true;
+	return appendToInventory(name, quantity);
 }
 
-void addToInventory(std::ofstream& ofs, const char const* name, unsigned quantity)
+void addToInventory(
+	std::ofstream& ofs,
+	const char const* name,
+	unsigned quantity)
 {
 	ofs << name << ';' << quantity << std::endl;
 }
 
-bool removeFromInventory(InventoryItem item, int*& failCodes)
+bool removeFromInventory(
+	const char const* name,
+	int*& failCodes)
 {
-	return removeFromInventory(item.name, failCodes);
-}
-
-bool removeFromInventory(const char const* name, int*& failCodes)
-{
-	bool itemExists = inventoryItemExists(name);
-
-	if (!itemExists)
+	bool exists = inventoryItemExists(name);
+	if (!exists)
 	{
 		addFailCode(INVENTORY_CONSTANTS::REMOVAL_FAIL_CODE, failCodes);
 		return false;
 	}
 
-	mutateInventory(name, 0, true);
+	return mutateInventory(name, 0, true);
 }
 
-void mutateInventory(const char const* name, unsigned quantity, bool isDelete)
+bool mutateInventory(
+	const char const* name,
+	unsigned quantity,
+	bool isDelete)
 {
 	InventoryItem** items = getAllFromInventory();
+	if (!items)
+	{
+		return false;
+	}
 
 	std::ofstream ofs(INVENTORY_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ofs))
 	{
-		return;
+		return false;
 	}
 
 	unsigned indx = 0;
 	while (items[indx])
 	{
-		InventoryItem* item = items[indx++];
+		InventoryItem* item = items[indx];
 
 		bool toFindIsCurrentItem = !strcmp(item->name, name);
 		bool shouldOutputCurrentItem = !(toFindIsCurrentItem && isDelete);
@@ -79,28 +84,43 @@ void mutateInventory(const char const* name, unsigned quantity, bool isDelete)
 		{
 			addToInventory(ofs, item->name, item->quantity);
 		}
+
+		indx++;
 	}
 
 	freeMemory(items);
 
 	ofs.close();
+
+	return true;
 }
 
-void appendToInventory(const char const* name, unsigned quantity)
+bool appendToInventory(
+	const char const* name,
+	unsigned quantity)
 {
 	std::ofstream ofs(INVENTORY_CONSTANTS::FILE_NAME, std::ios::app);
 	if (!isValidStream(ofs))
 	{
-		return;
+		return false;
 	}
 
 	addToInventory(ofs, name, quantity);
 
 	ofs.close();
+
+	return true;
 }
 
-InventoryItem* getFromInventory(const char const* name, InventoryItem** items)
+InventoryItem* getFromInventory(
+	const char const* name,
+	InventoryItem** items)
 {
+	if (!items)
+	{
+		return nullptr;
+	}
+
 	unsigned indx = 0;
 
 	while (items[indx])
@@ -126,7 +146,6 @@ InventoryItem* getFromInventory(const char const* name)
 		return nullptr;
 	}
 
-	bool isFetched = false;
 
 	InventoryItem* item = new InventoryItem;
 
@@ -136,8 +155,8 @@ InventoryItem* getFromInventory(const char const* name)
 
 		if (!strcmp(item->name, name))
 		{
-			isFetched = true;
-			break;
+			ifs.close();
+			return item;
 		}
 
 		ifs.peek();
@@ -145,26 +164,20 @@ InventoryItem* getFromInventory(const char const* name)
 
 	ifs.close();
 
-	if (isFetched)
-	{
-		return item;
-	}
-	else
-	{
-		freeMemory(item);
-		return nullptr;
-	}
+	freeMemory(item);
+	return nullptr;
 }
 
 bool inventoryItemExists(const char const* name)
 {
 	InventoryItem* item = getFromInventory(name);
-
-	bool exists = item != nullptr;
+	if (!item)
+	{
+		return false;
+	}
 
 	freeMemory(item);
-
-	return exists;
+	return true;
 }
 
 InventoryItem** getAllFromInventory()
@@ -175,30 +188,41 @@ InventoryItem** getAllFromInventory()
 		return nullptr;
 	}
 
-	unsigned itemsCount = getLinesCount(ifs) + 1;
-	InventoryItem** items = new InventoryItem * [itemsCount];
+	unsigned itemsCount = getLinesCount(ifs);
+	if (itemsCount == 0)
+	{
+		return nullptr;
+	}
+
+	InventoryItem** items = new InventoryItem * [itemsCount + 1];
 
 	unsigned itemsIndx = 0;
-	while (itemsIndx != itemsCount - 1)
+	while (itemsIndx < itemsCount)
 	{
 		InventoryItem* item = new InventoryItem;
 		setItemValues(ifs, item);
 
-		items[itemsIndx++] = item;
+		items[itemsIndx] = item;
+		itemsIndx++;
 	}
 	items[itemsIndx] = nullptr;
 
 	return items;
 }
 
-void setItemValues(std::ifstream& ifs, InventoryItem*& item)
+void setItemValues(
+	std::ifstream& ifs,
+	InventoryItem*& item)
 {
 	ifs.getline(item->name, INVENTORY_CONSTANTS::MAX_NAME_LENGTH, ';');
 	ifs >> item->quantity;
 	ifs.ignore();
 }
 
-void displayInventoryItems(InventoryItem** items, unsigned indent, char indentCh)
+void displayInventoryItems(
+	InventoryItem** items,
+	unsigned indent,
+	char indentCh)
 {
 	if (!items)
 	{
@@ -214,8 +238,16 @@ void displayInventoryItems(InventoryItem** items, unsigned indent, char indentCh
 	}
 }
 
-void displayInventoryItem(InventoryItem* item, unsigned indent, char indentCh)
+void displayInventoryItem(
+	InventoryItem* item,
+	unsigned indent,
+	char indentCh)
 {
+	if (!item)
+	{
+		return;
+	}
+
 	while (indent)
 	{
 		print(indentCh, 0);

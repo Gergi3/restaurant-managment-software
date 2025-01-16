@@ -12,7 +12,9 @@ bool isLeapYear(unsigned year)
 	return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
 
-unsigned getDaysInMonth(unsigned month, unsigned year)
+unsigned getDaysInMonth(
+	unsigned month,
+	unsigned year)
 {
 	switch (month)
 	{
@@ -91,6 +93,8 @@ bool addDate()
 	}
 
 	fs.close();
+
+	return true;
 }
 
 char* getDate()

@@ -5,19 +5,23 @@
 #include "orderValidator.h"
 #include "validator.h"
 
-bool validateOrderItem(OrderItem* item, int*& failCodes)
+bool validateOrderItem(
+	OrderItem* item,
+	int*& failCodes)
 {
 	if (!item)
 	{
 		return false;
 	}
-	
+
 	bool isValidMenuItem = validateOrderItemMenuItem(item->menuItemName, failCodes);
 
 	return isValidMenuItem;
 }
 
-bool validateOrderItemMenuItem(const char const* name, int*& failCodes)
+bool validateOrderItemMenuItem(
+	const char const* name,
+	int*& failCodes)
 {
 	if (!name)
 	{
@@ -41,11 +45,13 @@ void displayOrderItemFailCodeMessage(int failCode)
 		case ORDER_CONSTANTS::MENU_ITEM_NOT_FOUND_FAIL_CODE:
 		{
 			print(ORDER_CONSTANTS::MENU_ITEM_NOT_FOUND_FAIL_MESSAGE);
+
 			break;
 		}
 		case ORDER_CONSTANTS::REMOVAL_FAIL_CODE:
 		{
 			print(ORDER_CONSTANTS::REMOVAL_FAIL_MESSAGE);
+
 			break;
 		}
 	}

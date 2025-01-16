@@ -1,14 +1,24 @@
 #include "misc.h"
 #include "role.h"
 #include "string.h"
+#include "userConstants.h"
 
 const char* toString(Role role)
 {
 	switch (role)
 	{
-		case Role::Manager: return "Manager";
-		case Role::Server: return "Server";
-		default: nullptr;
+		case Role::Manager:
+		{
+			return USER_CONSTANTS::MANAGER_ROLE_LONG;
+		}
+		case Role::Server:
+		{
+			return USER_CONSTANTS::SERVER_ROLE_LONG;
+		}
+		default:
+		{
+			return nullptr;
+		}
 	}
 }
 
@@ -29,14 +39,17 @@ char* toString(unsigned num)
 	return strNum;
 }
 
-void reverseStringMutate(char* str, unsigned len)
+void reverseStringMutate(
+	char* str,
+	unsigned len)
 {
 	if (!str)
 	{
 		return;
 	}
 
-	for (int i = 0; i < len / 2; i++)
+	unsigned end = len / 2;
+	for (int i = 0; i < end; i++)
 	{
 		swap(str[i], str[len - i - 1]);
 	}
@@ -44,6 +57,11 @@ void reverseStringMutate(char* str, unsigned len)
 
 void reverseStringMutate(char* str)
 {
+	if (!str)
+	{
+		return;
+	}
+
 	unsigned len = length(str);
 	reverseStringMutate(str, len);
 }
@@ -111,17 +129,25 @@ unsigned strToUnsigned(const char const* str)
 	return result;
 }
 
-
-void concatMutate(char* lhs, unsigned num)
+void concatMutate(
+	char* lhs,
+	unsigned num)
 {
+	if (!lhs)
+	{
+		return;
+	}
+
 	char* numAsStr = toString(num);
 	concatMutate(lhs, numAsStr);
-	
+
 	delete[] numAsStr;
 	numAsStr = nullptr;
 }
 
-void concatMutate(char* lhs, const char* rhs)
+void concatMutate(
+	char* lhs,
+	const char* rhs)
 {
 	if (!lhs || !rhs)
 	{
@@ -130,13 +156,18 @@ void concatMutate(char* lhs, const char* rhs)
 
 	size_t lhsLen = length(lhs);
 	lhs += lhsLen;
+
 	copyMutate(lhs, rhs);
 }
 
-void copyMutate(char* dest, const char* source)
+void copyMutate(
+	char* dest,
+	const char* source)
 {
 	if (!source || !dest)
+	{
 		return;
+	}
 
 	while (*source)
 	{
@@ -166,7 +197,9 @@ unsigned length(const char const* str)
 	return counter;
 }
 
-unsigned countSuffixChars(const char const* str, char ch)
+unsigned countSuffixChars(
+	const char const* str,
+	char ch)
 {
 	if (!str)
 	{
@@ -183,7 +216,9 @@ unsigned countSuffixChars(const char const* str, char ch)
 	return count;
 }
 
-unsigned countPrefixChars(const char const* str, char ch)
+unsigned countPrefixChars(
+	const char const* str,
+	char ch)
 {
 	if (!str)
 	{
@@ -202,7 +237,9 @@ unsigned countPrefixChars(const char const* str, char ch)
 	return count;
 }
 
-void shiftLeftMutate(char* str, unsigned pos)
+void shiftLeftMutate(
+	char* str,
+	unsigned pos)
 {
 	if (!str)
 	{
@@ -222,7 +259,9 @@ void shiftLeftMutate(char* str, unsigned pos)
 	str[lhs] = '\0';
 }
 
-void trimLeftMutate(char* str, char ch)
+void trimLeftMutate(
+	char* str,
+	char ch)
 {
 	if (!str)
 	{
@@ -233,7 +272,9 @@ void trimLeftMutate(char* str, char ch)
 	shiftLeftMutate(str, counter);
 }
 
-void trimRightMutate(char* str, char ch)
+void trimRightMutate(
+	char* str,
+	char ch)
 {
 	if (!str)
 	{
@@ -246,7 +287,9 @@ void trimRightMutate(char* str, char ch)
 	str[strLen - counter] = '\0';
 }
 
-void trimMutate(char* str, char ch)
+void trimMutate(
+	char* str,
+	char ch)
 {
 	if (!str)
 	{
@@ -266,7 +309,9 @@ char toLower(char ch)
 	return ch;
 }
 
-unsigned countCharOccurances(const char const* str, char toContain)
+unsigned countCharOccurances(
+	const char const* str,
+	char toContain)
 {
 	if (!str)
 	{

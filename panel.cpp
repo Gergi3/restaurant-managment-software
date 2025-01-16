@@ -60,7 +60,7 @@ void routeToOption(int option)
 
 	if (option == -1)
 	{
-		print("You must choose an option from below!");
+		print(PANEL_CONSTANTS::INVALID_OPTION_MESSAGE);
 		return;
 	}
 
@@ -80,65 +80,73 @@ void routeToOption(int option)
 		}
 		case 2:
 		{
-			print("-- Menu items --");
-			printNewLine();
+			print("-- Menu --", 2);
 
-			MenuItem** items = getAllFromMenu();
-			displayMenuItems(items);
+			MenuItem** menuItems = getAllFromMenu();
+			if (!menuItems)
+			{
+				print("Menu is currently empty!");
+				break;
+			}
 
-			freeMemory(items);
+			displayMenuItems(menuItems);
+
+			freeMemory(menuItems);
 			break;
 		}
 		case 3:
 		{
-			char menuItemName[bufferSize];
+			print("-- Add to menu -- ", 2);
+
+			char menuItemName[bufferSize]{};
 			unsigned ingredientsCount = 0;
 			unsigned price = 0;
 
-			print("-- Add to menu -- ", 2);
-
-			print("Name for the menu item: ", 0);
+			print("Name of dish: ", 0);
 			input(menuItemName);
 
 			bool exists = menuItemExists(menuItemName);
 			if (exists)
 			{
-				addFailCode(MENU_CONSTANTS::ALREADY_EXISTS_FAIL_CODE, failCodes);
+				clearConsole();
+				addFailCode(MENU_CONSTANTS::ADD_FAIL_CODE, failCodes);
 				displayFailCodeMessages(failCodes);
+
 				break;
 			}
 
-			print("Price for the menu item: ", 0);
+			print("Price of dish: ", 0);
 			input(price);
 
-			print("Please input how many ingredients the menu item needs: ", 0);
+			print("Please specify the number of ingredients for this dish: ", 0);
 			input(ingredientsCount);
 
 			bool isValid = validateMenuItem(menuItemName, price, ingredientsCount, failCodes);
 			if (!isValid)
 			{
 				clearConsole();
-				print("Menu item was not added.");
+				print("The dish could not be added!");
 				displayFailCodeMessages(failCodes);
 
 				break;
 			}
 
 			MenuItem* menuItem = new MenuItem;
-
 			copyMutate(menuItem->name, menuItemName);
 			menuItem->price = price;
+
 			InventoryItem** chosenIngredients = new InventoryItem * [ingredientsCount + 1]
 				{};
 			menuItem->ingredients = chosenIngredients;
 
+			InventoryItem** ingredients = getAllFromInventory();
+
 			printNewLine();
 			print("-- Ingredients -- ");
-			InventoryItem** ingredients = getAllFromInventory();
 			displayInventoryItems(ingredients);
-			printNewLine();
 
-			print("Choose ingredients from above", 2);
+			printNewLine();
+			print("Select ingredients from the list provided above.", 2);
 
 			unsigned indx = 0;
 			while (indx < ingredientsCount)
@@ -151,26 +159,31 @@ void routeToOption(int option)
 				print(": ", 0);
 				input(ingredientName);
 
-				bool isValidIngredientName = validateInventoryItemName(ingredientName, failCodes);
-				if (!isValidIngredientName)
-				{
-					displayFailCodeMessages(failCodes);
-					resetFailCodes(failCodes);
-					printNewLine();
-					continue;
-				}
+				//bool isValidIngredientName = validateInventoryItemName(ingredientName, failCodes);
+				//if (!isValidIngredientName)
+				//{
+				//	displayFailCodeMessages(failCodes);
+				//	resetFailCodes(failCodes);
+				//	printNewLine();
+
+				//	continue;
+				//}
 
 				InventoryItem* ingredient = getFromInventory(ingredientName, ingredients);
 				if (!ingredient)
 				{
-					print("No such ingredient was found, please chose an ingredient from the list above.", 2);
+					print("Ingredient not found. ", 0);
+					print("Please select an ingredient from the list provided above.", 2);
+
 					continue;
 				}
 
 				InventoryItem* chosenIngredient = getFromInventory(ingredientName, chosenIngredients);
 				if (chosenIngredient)
 				{
-					print("Ingredient was already chosen, you must choose an ingredient which has not been chosen.");
+					print("This ingredient has already been selected. ", 0);
+					print("Please choose an ingredient that has not been selected yet.", 2);
+
 					continue;
 				}
 
@@ -183,20 +196,24 @@ void routeToOption(int option)
 					displayFailCodeMessages(failCodes);
 					resetFailCodes(failCodes);
 					printNewLine();
+
 					continue;
 				}
 
 				ingredient->quantity = quantityNeeded;
-
-				chosenIngredients[indx] = ingredient;
-				indx++;
+				chosenIngredients[indx++] = ingredient;
 				chosenIngredients[indx] = nullptr;
 
-				printNewLines(1);
+				printNewLine();
 			}
 
-			addToMenu(menuItem, failCodes);
-			print("Menu item added succesfully!");
+			bool isAdded = addToMenu(menuItem, failCodes);
+			if (isAdded)
+			{
+				print("Dish added succesfully!");
+			}
+
+			displayFailCodeMessages(failCodes);
 
 			freeMemory(ingredients);
 			freeMemory(chosenIngredients, false);
@@ -206,16 +223,17 @@ void routeToOption(int option)
 		}
 		case 4:
 		{
-			char name[bufferSize];
 			print("-- Remove from menu -- ", 2);
 
-			MenuItem** items = getAllFromMenu();
-			displayMenuItems(items);
-			freeMemory(items);
-			printNewLine();
+			char name[bufferSize];
 
-			print("Choose an item from above to remove.");
-			print("Name for the menu item: ", 0);
+			MenuItem** menuItems = getAllFromMenu();
+			displayMenuItems(menuItems);
+			freeMemory(menuItems);
+
+			printNewLine();
+			print("Please select a dish from the list above to remove.");
+			print("Name of dish: ", 0);
 			input(name);
 
 			clearConsole();
@@ -223,7 +241,7 @@ void routeToOption(int option)
 			bool isRemoved = removeFromMenu(name, failCodes);
 			if (isRemoved)
 			{
-				print("Item removed successsfully!");
+				print("Dish removed successsfully!");
 			}
 
 			displayFailCodeMessages(failCodes);
@@ -234,14 +252,14 @@ void routeToOption(int option)
 		{
 			print("-- Orders --", 2);
 
-			OrderItem** items = getAllOrders();
-			if (!items)
+			OrderItem** orders = getAllOrders();
+			if (!orders)
 			{
-				print("No orders are currently placed!");
+				print("There are no orders currently placed.");
 				break;
 			}
-			displayOrderItems(items);
-			freeMemory(items);
+			displayOrderItems(orders);
+			freeMemory(orders);
 
 			break;
 		}
@@ -249,14 +267,14 @@ void routeToOption(int option)
 		{
 			print("-- Orders with count --", 2);
 
-			OrderItem** items = getAllOrders();
-			if (!items)
+			OrderItem** orders = getAllOrders();
+			if (!orders)
 			{
-				print("No orders are currently placed!");
+				print("There are no orders currently placed.");
 				break;
 			}
-			displayOrderItems(items, true);
-			freeMemory(items);
+			displayOrderItems(orders, true);
+			freeMemory(orders);
 
 			break;
 		}
@@ -264,27 +282,25 @@ void routeToOption(int option)
 		{
 			print("-- Place order -- ", 2);
 
-			MenuItem** items = getAllFromMenu();
-			displayMenuItems(items);
-			freeMemory(items);
+			MenuItem** menuItems = getAllFromMenu();
+			displayMenuItems(menuItems);
+			freeMemory(menuItems);
 
 			printNewLine();
 
-			print("Name of menu item for order: ", 0);
+			print("Name of dish for order: ", 0);
 			char menuItemName[bufferSize];
 			input(menuItemName);
 
-			bool isAdded = addToOrder(menuItemName, failCodes);
-
 			clearConsole();
 
-			if (!isAdded)
+			bool isAdded = addToOrder(menuItemName, failCodes);
+			if (isAdded)
 			{
-				displayFailCodeMessages(failCodes);
-				break;
+				print("Order placed successfully!");
 			}
 
-			print("Order placed successfully!");
+			displayFailCodeMessages(failCodes);
 
 			break;
 		}
@@ -292,89 +308,91 @@ void routeToOption(int option)
 		{
 			print("-- Cancel order --", 2);
 
-			OrderItem** items = getAllOrders();
-			if (!items)
+			OrderItem** orders = getAllOrders();
+			if (!orders)
 			{
-				print("No orders are currently placed!");
+				print("There are no orders currently placed.");
 				break;
 			}
-			displayOrderItems(items);
+			displayOrderItems(orders);
 
 			printNewLine();
-			print("Choose an order from above.");
+			print("Select an order from the list provided above.");
 
-			print("Order id to remove: ", 0);
+			print("Order ID to remove: ", 0);
 			unsigned id = 0;
 			input(id);
 
 			clearConsole();
 
-			bool isRemoved = removeOrder(id, failCodes, items);
-			if (!isRemoved)
-			{
-				print("Order was not cancelled!");
-			}
-			else
-			{
-				print("Order was cancelled successfully!");
-			}
-
+			bool isRemoved = removeOrder(id, failCodes, orders);
+			print(isRemoved ? "Order cancelled successfully." : "The order could not be canceled.");
 			displayFailCodeMessages(failCodes);
 
-			freeMemory(items);
-
+			freeMemory(orders);
 			break;
 		}
-		case 9: // Show inventory
+		case 9:
 		{
 			print("-- Show inventory -- ", 2);
 
-			InventoryItem** items = getAllFromInventory();
-			displayInventoryItems(items);
-			freeMemory(items);
+			InventoryItem** inventoryItems = getAllFromInventory();
+			if (!inventoryItems)
+			{
+				print("Inventory is currently empty!");
+				break;
+			}
 
+			displayInventoryItems(inventoryItems);
+
+			freeMemory(inventoryItems);
 			break;
 		}
-		case 10: // Add to inventory
+		case 10:
 		{
+			print("-- Add to inventory -- ", 2);
+
 			char name[bufferSize];
 			unsigned quantity = 0;
 
-			print("-- Add to inventory -- ", 2);
-
-			print("Name for the inventory item: ", 0);
+			print("Name of ingredient: ", 0);
 			input(name);
 
-			print("Please input quantity for the inventory item: ", 0);
+			print("Quantity of ingredient: ", 0);
 			input(quantity);
-
-			bool isValid = addToInventory(name, quantity, failCodes);
 
 			clearConsole();
 
-			print(isValid ? "Item added successfully!" : "Item was not added!");
+			bool isValid = addToInventory(name, quantity, failCodes);
+			print(isValid ? "Ingredient added successfully." : "The ingredient could not be added.");
 			displayFailCodeMessages(failCodes);
 
 			break;
 		}
-		case 11: // Remove from inventory
+		case 11:
 		{
-			char name[bufferSize];
 			print("-- Remove from inventory -- ", 2);
 
-			InventoryItem** items = getAllFromInventory();
-			displayInventoryItems(items);
-			freeMemory(items);
-			printNewLine();
+			char name[bufferSize];
 
-			print("Choose an item from above to remove.");
-			print("Name for the inventory item: ", 0);
+			InventoryItem** inventoryItems = getAllFromInventory();
+			if (!inventoryItems)
+			{
+				print("Inventory is currently empty!");
+				break;
+			}
+			displayInventoryItems(inventoryItems);
+			freeMemory(inventoryItems);
+
+			printNewLine();
+			print("Select ingredient from the list provided above.");
+			print("Name of ingredient: ", 0);
 			input(name);
 
 			bool isRemoved = removeFromInventory(name, failCodes);
 			if (isRemoved)
 			{
-				print("Item removed successfully!");
+				print("Ingredient removed successfully!");
 			}
 
 			displayFailCodeMessages(failCodes);
@@ -395,19 +413,37 @@ void routeToOption(int option)
 	clearConsole();
 }
 
-bool isValidOption(int option, Role role)
+bool isValidOption(
+	int option,
+	Role role)
 {
-	return option >= PANEL_CONSTANTS::MIN_SERVER_OPTION
-		&& option <= PANEL_CONSTANTS::MAX_SERVER_OPTION
-		&& role == Role::Server
-		|| option >= PANEL_CONSTANTS::MIN_MANAGER_OPTION
-		&& option <= PANEL_CONSTANTS::MAX_MANAGER_OPTION
-		&& role == Role::Manager;
+	bool isAllowed = false;
+
+	switch (role)
+	{
+		case Role::Server:
+		{
+			isAllowed = option >= PANEL_CONSTANTS::MIN_SERVER_OPTION
+				&& option <= PANEL_CONSTANTS::MAX_SERVER_OPTION;
+
+			break;
+		}
+		case Role::Manager:
+		{
+			isAllowed = option >= PANEL_CONSTANTS::MIN_MANAGER_OPTION
+				&& option <= PANEL_CONSTANTS::MAX_MANAGER_OPTION;
+
+			break;
+		}
+	}
+
+	return isAllowed;
 }
 
 void displayExitMessage()
 {
 	clearConsole();
+
 	print("Exitting managment software..");
 	print("Successfully exited!");
 }

@@ -9,6 +9,11 @@ bool isValidStream(std::fstream& fs);
 
 unsigned getLinesCount(std::ifstream& ifs);
 
-unsigned getCharCountCurrentLine(std::ifstream& ifs, char ch);
+unsigned getCharCountCurrentLine(
+	std::ifstream& ifs,
+	char ch);
 
-unsigned getCharCount(std::ifstream& ifs, char ch, int endPos);
+unsigned getCharCount(
+	std::ifstream& ifs,
+	char ch,
+	int endPos);

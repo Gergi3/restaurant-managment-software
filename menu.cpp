@@ -21,7 +21,7 @@ bool addToMenu(
 
 	if (exists)
 	{
-		addFailCode(MENU_CONSTANTS::ALREADY_EXISTS_FAIL_CODE, failCodes);
+		addFailCode(MENU_CONSTANTS::ADD_FAIL_CODE, failCodes);
 		return false;
 	}
 
@@ -30,61 +30,72 @@ bool addToMenu(
 	return true;
 }
 
-void addToMenu(std::ofstream& ofs, MenuItem* item)
+void addToMenu(
+	std::ofstream& ofs,
+	MenuItem* item)
 {
 	ofs << item->name << ';' << item->price << std::endl;
 
 	InventoryItem** ingredients = item->ingredients;
-	unsigned indx = 0;
 
 	if (!ingredients)
 	{
 		return;
 	}
 
+	unsigned indx = 0;
 	while (ingredients[indx])
 	{
 		InventoryItem* ingredient = ingredients[indx];
 
 		ofs << ingredient->name << '=' << ingredient->quantity << ';';
+
 		indx++;
 	}
 	ofs << std::endl;
 }
 
-
-void appendToMenu(MenuItem* item)
+bool appendToMenu(MenuItem* item)
 {
-	std::ofstream ofs(INVENTORY_CONSTANTS::FILE_NAME, std::ios::app);
+	std::ofstream ofs(MENU_CONSTANTS::FILE_NAME, std::ios::app);
 	if (!isValidStream(ofs))
 	{
-		return;
+		return false;
 	}
 
 	addToMenu(ofs, item);
 
 	ofs.close();
+
+	return true;
 }
 
-bool removeFromMenu(MenuItem* item, int*& failCodes)
+bool removeFromMenu(
+	MenuItem* item,
+	int*& failCodes)
 {
 	return removeFromMenu(item->name, failCodes);
 }
 
-bool removeFromMenu(const char const* name, int*& failCodes)
+bool removeFromMenu(
+	const char const* name,
+	int*& failCodes)
 {
 	bool exists = menuItemExists(name);
 
 	if (!exists)
 	{
-		addFailCode(MENU_CONSTANTS::NOT_FOUND_FAIL_CODE, failCodes);
-		
+		addFailCode(MENU_CONSTANTS::REMOVAL_FAIL_CODE, failCodes);
 		return false;
 	}
 
 	MenuItem** items = getAllFromMenu();
+	if (!items)
+	{
+		return false;
+	}
 
-	std::ofstream ofs(MENU_CONSTANTS::FILE_NAME);
+	std::ofstream ofs(INVENTORY_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ofs))
 	{
 		return false;
@@ -101,20 +112,19 @@ bool removeFromMenu(const char const* name, int*& failCodes)
 		}
 	}
 
-	freeMemory(items);
-
 	ofs.close();
+
+	freeMemory(items);
+	return true;
 }
 
 MenuItem* getFromMenu(const char const* name)
 {
-	std::ifstream ifs(INVENTORY_CONSTANTS::FILE_NAME);
+	std::ifstream ifs(MENU_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ifs))
 	{
 		return nullptr;
 	}
-
-	bool isFetched = false;
 
 	MenuItem* item = new MenuItem;
 
@@ -123,8 +133,8 @@ MenuItem* getFromMenu(const char const* name)
 		setItemValues(ifs, item);
 		if (!strcmp(item->name, name))
 		{
-			isFetched = true;
-			break;
+			ifs.close();
+			return item;
 		}
 
 		freeMemory(item->ingredients);
@@ -133,41 +143,37 @@ MenuItem* getFromMenu(const char const* name)
 
 	ifs.close();
 
-	if (isFetched)
-	{
-		return item;
-	}
-	else
-	{
-		freeMemory(item, false);
-		return nullptr;
-	}
+	freeMemory(item, false);
+	return nullptr;
 }
 
 bool menuItemExists(const char const* name)
 {
 	MenuItem* item = getFromMenu(name);
 
-	bool exists = item != nullptr;
-
-	if (exists)
+	if (!item)
 	{
-		freeMemory(item);
+		return false;
 	}
 
-	return exists;
+	freeMemory(item);
+	return true;
 }
-
 
 MenuItem** getAllFromMenu()
 {
-	std::ifstream ifs(INVENTORY_CONSTANTS::FILE_NAME);
+	std::ifstream ifs(MENU_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ifs))
 	{
 		return nullptr;
 	}
 
 	unsigned itemsCount = getLinesCount(ifs) / 2;
+	if (itemsCount == 0)
+	{
+		return nullptr;
+	}
+
 	MenuItem** items = new MenuItem * [itemsCount + 1];
 
 	unsigned itemsIndx = 0;
@@ -184,19 +190,21 @@ MenuItem** getAllFromMenu()
 }
 
 
-void setItemValues(std::ifstream& ifs, MenuItem*& item)
+void setItemValues(
+	std::ifstream& ifs,
+	MenuItem*& item)
 {
 	ifs.getline(item->name, MENU_CONSTANTS::MAX_NAME_LENGTH, ';');
-	
+
 	char priceStr[MENU_CONSTANTS::MAX_PRICE_DIGITS_COUNT + 1]{};
 	ifs.getline(priceStr, MENU_CONSTANTS::MAX_PRICE_DIGITS_COUNT + 1, '\n');
 	item->price = strToUnsigned(priceStr);
-	
+
 	unsigned ingredientsCount = getCharCountCurrentLine(ifs, ';');
 	item->ingredients = new InventoryItem * [ingredientsCount + 1];
 
-	unsigned ingredientsIndx = 0;
-	while (ingredientsIndx < ingredientsCount)
+	unsigned indx = 0;
+	while (indx < ingredientsCount)
 	{
 		InventoryItem* currentIngredient = new InventoryItem;
 
@@ -205,15 +213,17 @@ void setItemValues(std::ifstream& ifs, MenuItem*& item)
 		char quantityStr[INVENTORY_CONSTANTS::MAX_QUANTITY_DIGITS_COUNT + 1]{};
 		ifs.getline(quantityStr, INVENTORY_CONSTANTS::MAX_QUANTITY_DIGITS_COUNT, ';');
 		currentIngredient->quantity = strToUnsigned(quantityStr);
-		
-		item->ingredients[ingredientsIndx++] = currentIngredient;
+
+		item->ingredients[indx++] = currentIngredient;
 	}
-	item->ingredients[ingredientsIndx] = nullptr;
+	item->ingredients[indx] = nullptr;
 
 	ifs.ignore();
 }
 
-void displayMenuItems(MenuItem** items)
+void displayMenuItems(
+	MenuItem** items,
+	bool showIngredients)
 {
 	if (!items)
 	{
@@ -224,18 +234,33 @@ void displayMenuItems(MenuItem** items)
 	while (items[indx])
 	{
 		MenuItem* item = items[indx];
-		
-		print(item->name, 0);
-		print(" - $", 0);
-		print(item->price);
-		
-		displayInventoryItems(item->ingredients, 2);
+
+		displayMenuItem(item, showIngredients);
 
 		if (items[indx + 1] != nullptr)
 		{
 			printNewLine();
 		}
-		
+
 		indx++;
+	}
+}
+
+void displayMenuItem(
+	MenuItem* item,
+	bool showIngredients)
+{
+	if (!item)
+	{
+		return;
+	}
+
+	print(item->name, 0);
+	print(" - $", 0);
+	print(item->price);
+
+	if (showIngredients)
+	{
+		displayInventoryItems(item->ingredients, 2);
 	}
 }

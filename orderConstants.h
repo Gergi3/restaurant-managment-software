@@ -5,7 +5,7 @@ namespace ORDER_CONSTANTS
 	constexpr char const* FILE_NAME = "orders.txt";
 
 	constexpr unsigned MENU_ITEM_NOT_FOUND_FAIL_CODE = 300;
-	constexpr char const* MENU_ITEM_NOT_FOUND_FAIL_MESSAGE = 
+	constexpr char const* MENU_ITEM_NOT_FOUND_FAIL_MESSAGE =
 		"The order was cancelled because no such menu item was found.";
 
 	constexpr unsigned REMOVAL_FAIL_CODE = 301;

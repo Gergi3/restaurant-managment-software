@@ -16,26 +16,28 @@ void displayFailCodeMessages(int*& failCodes)
 	for (size_t i = 0; i < GENERAL_CONSTANTS::FAIL_CODES_LENGTH; i++)
 	{
 		int failCode = failCodes[i];
-		
+
 		if (failCode >= INVENTORY_CONSTANTS::FAIL_CODE_START
 			&& failCode <= INVENTORY_CONSTANTS::FAIL_CODE_END)
 		{
 			displayInventoryItemFailCodeMessage(failCode);
 		}
 		else if (failCode >= MENU_CONSTANTS::FAIL_CODE_START
-			&& failCode <= MENU_CONSTANTS::FAIL_CODE_END)
+				 && failCode <= MENU_CONSTANTS::FAIL_CODE_END)
 		{
 			displayMenuItemFailCodeMessage(failCode);
 		}
 		else if (failCode >= ORDER_CONSTANTS::FAIL_CODE_START
-			&& failCode <= ORDER_CONSTANTS::FAIL_CODE_END)
+				 && failCode <= ORDER_CONSTANTS::FAIL_CODE_END)
 		{
 			displayOrderItemFailCodeMessage(failCode);
 		}
 	}
 }
 
-void addFailCode(unsigned failCode, int*& failCodes)
+void addFailCode(
+	unsigned failCode,
+	int*& failCodes)
 {
 	if (!failCodes)
 	{

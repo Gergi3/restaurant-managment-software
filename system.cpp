@@ -1,29 +1,28 @@
 #include "date.h";
 #include "generalConstants.h"
+#include "stream.h"
 #include "system.h"
 #include <fstream>
+#include <iostream>
 
 bool initializeSystem()
 {
 	bool systemFilesAreInitialized = initializeSystemFiles();
-	bool dateIsManaged = addDate();
+	bool dateIsManagedProperly = addDate();
 
-	return systemFilesAreInitialized && dateIsManaged;
+	return systemFilesAreInitialized && dateIsManagedProperly;
 }
-
 
 bool initializeSystemFiles()
 {
-	std::ofstream ofs;
-
-	for (size_t i = 0; i < GENERAL_CONSTANTS::FILES_COUNT; i++)
+	for (unsigned i = 0; i < GENERAL_CONSTANTS::FILES_COUNT; i++)
 	{
-		const char const* fileName = GENERAL_CONSTANTS::FILE_NAMES[i];
-		ofs.open(fileName, std::ios::app);
-		if (!ofs || !ofs.is_open() || !ofs.good())
+		std::ofstream ofs(GENERAL_CONSTANTS::FILE_NAMES[i], std::ios::app);
+		if (!isValidStream(ofs))
 		{
 			return false;
 		}
+
 		ofs.close();
 	}
 

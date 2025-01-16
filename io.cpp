@@ -1,8 +1,9 @@
+#include "generalConstants.h"
 #include "io.h"
 #include "string.h";
 #include <iostream>
 
-const unsigned MAX_CIN_BUFFER_SIZE = 1024;
+const unsigned MAX_CIN_BUFFER_SIZE = GENERAL_CONSTANTS::INPUT_BUFFER_SIZE;
 
 void input(char* result)
 {
@@ -83,4 +84,3 @@ void clearConsole()
 {
 	system("cls");
 }
-

@@ -2,6 +2,6 @@
 
 enum Role
 {
-	Server = 0,
-	Manager = 1
+	Server,
+	Manager
 };

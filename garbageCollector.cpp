@@ -3,7 +3,27 @@
 #include "menuItem.h"
 #include "orderItem.h"
 
-void freeMemory(InventoryItem** items, bool freeItems)
+void freeMemory(int* nums)
+{
+	delete[] nums;
+	nums = nullptr;
+}
+
+void freeMemory(char* str)
+{
+	delete str;
+	str = nullptr;
+}
+
+void freeMemory(InventoryItem* item)
+{
+	delete item;
+	item = nullptr;
+}
+
+void freeMemory(
+	InventoryItem** items,
+	bool freeItems)
 {
 	if (freeItems)
 	{
@@ -19,36 +39,23 @@ void freeMemory(InventoryItem** items, bool freeItems)
 	items = nullptr;
 }
 
-void freeMemory(InventoryItem* item)
-{
-	delete item;
-	item = nullptr;
-}
-
-void freeMemory(int* nums)
-{
-	delete[] nums;
-	nums = nullptr;
-}
-
-void freeMemory(char* str)
-{
-	delete str;
-	str = nullptr;
-}
-
-void freeMemory(MenuItem* item, bool freeIngredients)
+void freeMemory(
+	MenuItem* item,
+	bool freeIngredients)
 {
 	if (freeIngredients)
 	{
 		freeMemory(item->ingredients);
 	}
-	
+
 	delete item;
 	item = nullptr;
 }
 
-void freeMemory(MenuItem** items, bool freeMenuItems, bool freeIngredients)
+void freeMemory(
+	MenuItem** items,
+	bool freeMenuItems,
+	bool freeIngredients)
 {
 	if (freeMenuItems)
 	{
