@@ -105,5 +105,17 @@ void displayInventoryItemFailCodeMessage(int failCode)
 
 			break;
 		}
+		case INVENTORY_CONSTANTS::QUANTITY_DECREASE_NOT_FOUND_FAIL_CODE:
+		{
+			print(INVENTORY_CONSTANTS::QUANTITY_DECREASE_NOT_FOUND_FAIL_MESSAGE);
+
+			break;
+		}
+		case INVENTORY_CONSTANTS::QUANTITY_DECREASE_FAIL_CODE:
+		{
+			print(INVENTORY_CONSTANTS::QUANTITY_DECREASE_FAIL_MESSAGE);
+
+			break;
+		}
 	}
 }

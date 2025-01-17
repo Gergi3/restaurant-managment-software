@@ -6,10 +6,7 @@
 #include "io.h"
 #include "stream.h"
 #include "validator.h"
-#include <cstring>
 #include <fstream>
-#include <iosfwd>
-#include <ostream>
 
 bool addToInventory(
 	const char* const name,
@@ -39,6 +36,24 @@ void addToInventory(
 	ofs << name << ';' << quantity << std::endl;
 }
 
+void addManyToInventory(InventoryItem** items, int*& failCodes)
+{
+	if (!items)
+	{
+		return;
+	}
+
+	unsigned indx = 0;
+	while (items[indx])
+	{
+		InventoryItem* item = items[indx];
+
+		addToInventory(item->name, item->quantity, failCodes);
+
+		indx++;
+	}
+}
+
 bool removeFromInventory(
 	const char* const name,
 	int*& failCodes)
@@ -53,10 +68,104 @@ bool removeFromInventory(
 	return mutateInventory(name, 0, true);
 }
 
-bool mutateInventory(
+bool canDecreaseQuantityFromInventoryItems(
+	InventoryItem** items,
+	int*& failCodes)
+{
+	if (!items)
+	{
+		return false;
+	}
+
+	unsigned indx = 0;
+	while (items[indx])
+	{
+		InventoryItem* item = items[indx];
+
+		bool canDecreaseCurrent = canDecreaseQuantityFromInventoryItem(item->name, item->quantity, failCodes);
+
+		if (!canDecreaseCurrent)
+		{
+			return false;
+		}
+
+		indx++;
+	}
+
+	return true;
+}
+
+bool canDecreaseQuantityFromInventoryItem(
 	const char* const name,
 	unsigned quantity,
-	bool isDelete)
+	int*& failCodes)
+{
+	bool exists = inventoryItemExists(name);
+	if (!exists)
+	{
+		addFailCode(INVENTORY_CONSTANTS::QUANTITY_DECREASE_NOT_FOUND_FAIL_CODE, failCodes);
+		return false;
+	}
+
+	bool canBeDecreased = mutateInventory(name, -(int)quantity, false, true);
+
+	if (!canBeDecreased)
+	{
+		addFailCode(INVENTORY_CONSTANTS::QUANTITY_DECREASE_FAIL_CODE, failCodes);
+		return false;
+	}
+
+	return canBeDecreased;
+}
+
+bool decreaseQuantityFromInventoryItem(
+	const char* const name,
+	unsigned quantity,
+	int*& failCodes)
+{
+	bool exists = inventoryItemExists(name);
+	if (!exists)
+	{
+		addFailCode(INVENTORY_CONSTANTS::QUANTITY_DECREASE_NOT_FOUND_FAIL_CODE, failCodes);
+		return false;
+	}
+
+	return mutateInventory(name, -(int)quantity);
+}
+
+bool decreaseQuantityFromInventoryItems(
+	InventoryItem** items,
+	int*& failCodes)
+{
+	if (!items)
+	{
+		return false;
+	}
+
+	bool inventoryIsSufficient = canDecreaseQuantityFromInventoryItems(items, failCodes);
+	if (!inventoryIsSufficient)
+	{
+		return false;
+	}
+
+	unsigned indx = 0;
+	while (items[indx])
+	{
+		InventoryItem* item = items[indx];
+
+		decreaseQuantityFromInventoryItem(item->name, item->quantity, failCodes);
+
+		indx++;
+	}
+
+	return true;
+}
+
+bool mutateInventory(
+	const char* const name,
+	int quantity,
+	bool isDelete,
+	bool skipMutation)
 {
 	InventoryItem** items = getAllFromInventory();
 	if (!items)
@@ -70,23 +179,34 @@ bool mutateInventory(
 		return false;
 	}
 
+	bool success = true;
+
 	unsigned indx = 0;
 	while (items[indx])
 	{
 		InventoryItem* item = items[indx];
 
-		bool toFindIsCurrentItem = !strcmp(item->name, name);
-		bool shouldOutputCurrentItem = !(toFindIsCurrentItem && isDelete);
+		bool isCurrentItem = !strcmp(item->name, name);
 
-		if (toFindIsCurrentItem)
+		bool newQuantityIsNegative = ((int)item->quantity + quantity) < 0;
+		if (isCurrentItem && newQuantityIsNegative && skipMutation)
 		{
-			item->quantity += quantity;
+			success = false;
 		}
 
-		if (shouldOutputCurrentItem)
+		if (isCurrentItem && !skipMutation)
 		{
-			addToInventory(ofs, item->name, item->quantity);
+			if (newQuantityIsNegative || isDelete)
+			{
+				item->quantity = 0;
+			}
+			else
+			{
+				item->quantity += quantity;
+			}
 		}
+
+		addToInventory(ofs, item->name, item->quantity);
 
 		indx++;
 	}
@@ -95,7 +215,7 @@ bool mutateInventory(
 
 	ofs.close();
 
-	return true;
+	return success;
 }
 
 bool appendToInventory(
@@ -149,7 +269,6 @@ InventoryItem* getFromInventory(const char* const name)
 		return nullptr;
 	}
 
-
 	InventoryItem* item = new InventoryItem;
 
 	while (!ifs.eof() && ifs.good())
@@ -194,6 +313,7 @@ InventoryItem** getAllFromInventory()
 	unsigned itemsCount = getLinesCount(ifs);
 	if (itemsCount == 0)
 	{
+		ifs.close();
 		return nullptr;
 	}
 
@@ -210,6 +330,7 @@ InventoryItem** getAllFromInventory()
 	}
 	items[itemsIndx] = nullptr;
 
+	ifs.close();
 	return items;
 }
 

@@ -1,5 +1,6 @@
 #include "garbageCollector.h"
 #include "generalConstants.h"
+#include "inventory.h"
 #include "io.h"
 #include "menu.h"
 #include "menuConstants.h"
@@ -22,7 +23,25 @@ bool addToOrder(
 		return false;
 	}
 
-	return appendToOrder(menuItemName);
+	MenuItem* menuItem = getFromMenu(menuItemName);
+
+	bool isDecreased = decreaseQuantityFromInventoryItems(menuItem->ingredients, failCodes);
+
+	if (!isDecreased)
+	{
+		return false;
+	}
+
+	bool isAdded = appendToOrder(menuItemName);
+
+	if (!isAdded)
+	{
+		addManyToInventory(menuItem->ingredients, failCodes);
+	}
+
+	freeMemory(menuItem);
+
+	return isAdded;
 }
 
 void addToOrder(
@@ -69,6 +88,12 @@ bool removeOrder(
 
 	unsigned currentId = getCurrentId();
 
+	OrderItem* order = getOrder(id);
+	MenuItem* menuItem = getFromMenu(order->menuItemName);
+	InventoryItem** ingredientsToAdd = menuItem->ingredients;
+	freeMemory(order);
+	freeMemory(menuItem, false);
+	
 	std::ofstream ofs(ORDER_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ofs))
 	{
@@ -92,6 +117,9 @@ bool removeOrder(
 
 	ofs.close();
 
+	addManyToInventory(ingredientsToAdd, failCodes);
+	freeMemory(ingredientsToAdd);
+
 	return true;
 }
 
@@ -107,6 +135,7 @@ OrderItem* getOrder(unsigned id)
 	ifs.peek();
 	if (!ifs.good() || ifs.eof())
 	{
+		ifs.close();
 		return nullptr;
 	}
 
@@ -117,6 +146,7 @@ OrderItem* getOrder(unsigned id)
 
 		if (order->id == id)
 		{
+			ifs.close();
 			return order;
 		}
 
@@ -124,8 +154,35 @@ OrderItem* getOrder(unsigned id)
 	}
 
 	ifs.close();
-
 	return nullptr;
+}
+
+bool orderForMenuItemExists(const char* const menuItemName)
+{
+	OrderItem** orders = getAllOrders();
+	if (!orders)
+	{
+		return false;
+	}
+
+	bool exists = false;
+	unsigned indx = 0;
+	while (orders[indx])
+	{
+		OrderItem* order = orders[indx];
+
+		if (!strcmp(order->menuItemName, menuItemName))
+		{
+			exists = true;
+			break;
+		}
+
+		indx++;
+	}
+
+	freeMemory(orders);
+
+	return exists;
 }
 
 bool orderExists(unsigned id)
@@ -153,12 +210,14 @@ OrderItem** getAllOrders()
 	ifs.peek();
 	if (!ifs.good() || ifs.eof())
 	{
+		ifs.close();
 		return nullptr;
 	}
 
 	unsigned itemsCount = getLinesCount(ifs);
 	if (itemsCount == 0)
 	{
+		ifs.close();
 		return nullptr;
 	}
 
@@ -174,6 +233,7 @@ OrderItem** getAllOrders()
 	}
 	orders[indx] = nullptr;
 
+	ifs.close();
 	return orders;
 }
 

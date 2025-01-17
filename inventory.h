@@ -12,14 +12,37 @@ void addToInventory(
 	const char* const name,
 	unsigned quantity);
 
+void addManyToInventory(
+	InventoryItem** items,
+	int*& failCodes);
+
 bool removeFromInventory(
 	const char* const name,
 	int*& failCodes);
 
-bool mutateInventory(
+bool canDecreaseQuantityFromInventoryItems(
+	InventoryItem** items,
+	int*& failCodes);
+
+bool canDecreaseQuantityFromInventoryItem(
 	const char* const name,
 	unsigned quantity,
-	bool isDelete = false);
+	int*& failCodes);
+
+bool decreaseQuantityFromInventoryItem(
+	const char* const name,
+	unsigned quantity,
+	int*& failCodes);
+
+bool decreaseQuantityFromInventoryItems(
+	InventoryItem** items,
+	int*& failCodes);
+
+bool mutateInventory(
+	const char* const name,
+	int quantity,
+	bool isDelete = false,
+	bool skipMutation = false);
 
 bool appendToInventory(
 	const char* const name,

@@ -15,6 +15,7 @@ namespace MENU_CONSTANTS
 	constexpr unsigned MIN_INGREDIENTS_COUNT = 1;
 	constexpr unsigned MAX_INGREDIENTS_COUNT = 30;
 
+
 	constexpr unsigned NAME_FAIL_CODE = 200;
 	constexpr char const* NAME_FAIL_MESSAGE = "Name must be between ";
 
@@ -31,6 +32,10 @@ namespace MENU_CONSTANTS
 
 	constexpr unsigned PRICE_FAIL_CODE = 204;
 	constexpr char const* PRICE_FAIL_MESSAGE = "Price must be between ";
+
+	constexpr unsigned ORDER_EXISTS_FAIL_CODE = 205;
+	constexpr char const* ORDER_EXISTS_FAIL_MESSAGE =
+		"The menu item was not removed because an order is placed for it.";
 
 	constexpr unsigned FAIL_CODE_START = 200;
 	constexpr unsigned FAIL_CODE_END = 299;

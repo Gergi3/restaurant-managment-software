@@ -21,6 +21,14 @@ namespace INVENTORY_CONSTANTS
 	constexpr char const* REMOVAL_FAIL_MESSAGE =
 		"The inventory item was not removed because no such item was found.";
 
+	constexpr unsigned QUANTITY_DECREASE_NOT_FOUND_FAIL_CODE = 103;
+	constexpr char const* QUANTITY_DECREASE_NOT_FOUND_FAIL_MESSAGE =
+		"The inventory item quantity was not decreased because no such item was found.";
+
+	constexpr unsigned QUANTITY_DECREASE_FAIL_CODE = 104;
+	constexpr char const* QUANTITY_DECREASE_FAIL_MESSAGE =
+		"The order could not be placed due to insufficient inventory stock.";
+
 	constexpr unsigned FAIL_CODE_START = 100;
 	constexpr unsigned FAIL_CODE_END = 199;
 }

@@ -120,5 +120,12 @@ void displayMenuItemFailCodeMessage(int failCode)
 
 			break;
 		}
+
+		case MENU_CONSTANTS::ORDER_EXISTS_FAIL_CODE:
+		{
+			print(MENU_CONSTANTS::ORDER_EXISTS_FAIL_MESSAGE);
+
+			break;
+		}
 	}
 }

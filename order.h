@@ -25,6 +25,8 @@ bool removeOrder(
 	int*& failCodes,
 	OrderItem** items = nullptr);
 
+bool orderForMenuItemExists(const char* const menuItemName);
+
 bool orderExists(unsigned id);
 
 unsigned getAndIncrementNextId();

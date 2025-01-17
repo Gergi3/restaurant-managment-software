@@ -12,6 +12,7 @@
 #include "validator.h"
 #include <fstream>
 #include <iostream>
+#include "order.h"
 
 bool addToMenu(
 	MenuItem* item,
@@ -82,10 +83,16 @@ bool removeFromMenu(
 	int*& failCodes)
 {
 	bool exists = menuItemExists(name);
-
 	if (!exists)
 	{
 		addFailCode(MENU_CONSTANTS::REMOVAL_FAIL_CODE, failCodes);
+		return false;
+	}
+
+	bool existsOrder = orderForMenuItemExists(name);
+	if (existsOrder)
+	{
+		addFailCode(MENU_CONSTANTS::ORDER_EXISTS_FAIL_CODE, failCodes);
 		return false;
 	}
 
@@ -95,7 +102,7 @@ bool removeFromMenu(
 		return false;
 	}
 
-	std::ofstream ofs(INVENTORY_CONSTANTS::FILE_NAME);
+	std::ofstream ofs(MENU_CONSTANTS::FILE_NAME);
 	if (!isValidStream(ofs))
 	{
 		return false;
@@ -171,6 +178,7 @@ MenuItem** getAllFromMenu()
 	unsigned itemsCount = getLinesCount(ifs) / 2;
 	if (itemsCount == 0)
 	{
+		ifs.close();
 		return nullptr;
 	}
 
@@ -185,6 +193,8 @@ MenuItem** getAllFromMenu()
 		items[itemsIndx++] = item;
 	}
 	items[itemsIndx] = nullptr;
+
+	ifs.close();
 
 	return items;
 }

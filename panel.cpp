@@ -237,7 +237,7 @@ void routeToOption(int option)
 			input(name);
 
 			clearConsole();
-
+			
 			bool isRemoved = removeFromMenu(name, failCodes);
 			if (isRemoved)
 			{
