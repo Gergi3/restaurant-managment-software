@@ -47,11 +47,11 @@ void incrementDate()
 	ofs.close();
 }
 
-void incrementDate(char* date)
+void incrementDate(char* const date)
 {
-	unsigned day = charToDigit(date[0]) * 10 + charToDigit(date[1]);
-	unsigned month = charToDigit(date[3]) * 10 + charToDigit(date[4]);
-	unsigned year = charToDigit(date[6]) * 1000 + charToDigit(date[7]) * 100 + charToDigit(date[8]) * 10 + charToDigit(date[9]);
+	unsigned day = extractDayFromDate(date);
+	unsigned month = extractMonthFromDate(date);
+	unsigned year = extractYearFromDate(date);
 
 	day++;
 
@@ -67,6 +67,15 @@ void incrementDate(char* date)
 		}
 	}
 
+	numsToDate(date, day, month, year);
+}
+
+void numsToDate(
+	char* const date,
+	unsigned day,
+	unsigned month,
+	unsigned year)
+{
 	date[0] = digitToChar(day / 10);
 	date[1] = digitToChar(day % 10);
 	date[3] = digitToChar(month / 10);
@@ -111,6 +120,96 @@ char* getDate()
 	ifs.close();
 
 	return date;
+}
+
+unsigned extractDayFromDate(const char* date)
+{
+	return charToDigit(date[0]) * 10
+		+ charToDigit(date[1]);
+}
+
+unsigned extractMonthFromDate(const char* date)
+{
+	return charToDigit(date[3]) * 10
+		+ charToDigit(date[4]);
+}
+
+unsigned extractYearFromDate(const char* date)
+{
+	return charToDigit(date[6]) * 1000
+		+ charToDigit(date[7]) * 100
+		+ charToDigit(date[8]) * 10
+		+ charToDigit(date[9]);
+}
+
+bool isValidDate(const char* date)
+{
+	for (int i = 0; i < 10; ++i)
+	{
+		if (i == 2 || i == 5)
+		{
+			if (date[i] != '.')
+			{
+				return false;
+			}
+		}
+		else
+		{
+			if (date[i] < '0' || date[i] > '9')
+			{
+				return false;
+			}
+		}
+	}
+
+	unsigned day = extractDayFromDate(date);
+	unsigned month = extractMonthFromDate(date);
+	unsigned year = extractYearFromDate(date);
+
+	if (month < 1 || month > 12)
+	{
+		return false;
+	}
+
+	unsigned daysInMonth = getDaysInMonth(month, year);
+	if (day < 1 || day > daysInMonth)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool isBefore(const char* date1, const char* date2)
+{
+	unsigned day1 = extractDayFromDate(date1);
+	unsigned month1 = extractMonthFromDate(date1);
+	unsigned year1 = extractYearFromDate(date1);
+
+	unsigned day2 = extractDayFromDate(date2);
+	unsigned month2 = extractMonthFromDate(date2);
+	unsigned year2 = extractYearFromDate(date2);
+
+	if (year1 < year2)
+	{
+		return true;
+	}
+	
+	if (year1 > year2)
+	{
+		return false;
+	}
+
+	if (month1 < month2)
+	{
+		return true;
+	}
+	if (month1 > month2)
+	{
+		return false;
+	}
+
+	return day1 <= day2;
 }
 
 void displayDate()

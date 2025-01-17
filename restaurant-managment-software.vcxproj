@@ -138,6 +138,8 @@
     <ClCompile Include="order.cpp" />
     <ClCompile Include="orderValidator.cpp" />
     <ClCompile Include="panel.cpp" />
+    <ClCompile Include="revenue.cpp" />
+    <ClCompile Include="revenueValidator.cpp" />
     <ClCompile Include="stream.cpp" />
     <ClCompile Include="misc.cpp" />
     <ClCompile Include="string.cpp" />
@@ -162,6 +164,9 @@
     <ClInclude Include="orderValidator.h" />
     <ClInclude Include="panel.h" />
     <ClInclude Include="panelConstants.h" />
+    <ClInclude Include="revenue.h" />
+    <ClInclude Include="revenueConstants.h" />
+    <ClInclude Include="revenueValidator.h" />
     <ClInclude Include="stream.h" />
     <ClInclude Include="misc.h" />
     <ClInclude Include="inventory.h" />

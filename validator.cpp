@@ -5,6 +5,7 @@
 #include "menuValidator.h"
 #include "orderConstants.h"
 #include "orderValidator.h"
+#include "revenueValidator.h"
 
 void displayFailCodeMessages(int*& failCodes)
 {
@@ -31,6 +32,11 @@ void displayFailCodeMessages(int*& failCodes)
 				 && failCode <= ORDER_CONSTANTS::FAIL_CODE_END)
 		{
 			displayOrderItemFailCodeMessage(failCode);
+		}
+		else if (failCode >= REVENUE_CONSTANTS::FAIL_CODE_START
+				 && failCode <= REVENUE_CONSTANTS::FAIL_CODE_END)
+		{
+			displayRevenueFailCodeMessage(failCode);
 		}
 	}
 }

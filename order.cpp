@@ -69,6 +69,18 @@ bool appendToOrder(const char* const menuItemName)
 	return true;
 }
 
+bool removeAllOrders()
+{
+	std::ofstream ofs(ORDER_CONSTANTS::FILE_NAME);
+	if (!isValidStream(ofs))
+	{
+		return false;
+	}
+
+	ofs.close();
+	return true;
+}
+
 bool removeOrder(
 	unsigned id,
 	int*& failCodes,

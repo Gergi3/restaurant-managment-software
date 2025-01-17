@@ -10,6 +10,7 @@
 #include "order.h"
 #include "panel.h"
 #include "panelConstants.h"
+#include "revenue.h"
 #include "role.h"
 #include "string.h"
 #include "validator.h"
@@ -17,27 +18,33 @@
 void displayPanel(Role role)
 {
 	displayDate();
-	print("1. Exit");
+	print("1. Exit", 2);
+
+	print("-- Menu --");
 	print("2. Show menu");
 	print("3. Add to menu");
-	print("4. Remove from menu");
+	print("4. Remove from menu", 2);
+
+	print("-- Orders --");
 	print("5. Show orders");
 	print("6. Show orders with count");
 	print("7. Place order");
-	print("8. Cancel order");
+	print("8. Cancel order", 2);
 
 	if (role != Role::Manager)
 	{
 		return;
 	}
 
+	print("-- Inventory --");
 	print("9. Show inventory");
 	print("10. Add to inventory");
-	print("11. Remove from inventory");
-	print("12. -");
-	print("13. -");
-	print("14. -");
-	print("15. -");
+	print("11. Remove from inventory", 2);
+
+	print("-- Revenue --");
+	print("12. Get current revenue");
+	print("13. End current revenue");
+	print("14. Check revenue from date to today");
 }
 
 int promptForOption(Role role)
@@ -73,7 +80,6 @@ void routeToOption(int option)
 	{
 		case EXIT_OPTION:
 		{
-			incrementDate();
 			displayExitMessage();
 
 			break;
@@ -237,7 +243,7 @@ void routeToOption(int option)
 			input(name);
 
 			clearConsole();
-			
+
 			bool isRemoved = removeFromMenu(name, failCodes);
 			if (isRemoved)
 			{
@@ -393,6 +399,54 @@ void routeToOption(int option)
 			if (isRemoved)
 			{
 				print("Ingredient removed successfully!");
+			}
+
+			displayFailCodeMessages(failCodes);
+
+			break;
+		}
+		case 12:
+		{
+			print("-- Current revenue --", 2);
+
+			displayCurrentRevenue();
+
+			break;
+		}
+		case 13:
+		{
+			print("-- End current revenue --");
+			displayCurrentRevenue();
+
+			printNewLine();
+
+			bool isEnded = endCurrentRevenue();
+			if (!isEnded)
+			{
+				print("There was an error with ending current revenue!");
+				print("Please try again!");
+			}
+			else
+			{
+				print("Successfully ended current revenue!");
+			}
+
+			break;
+		}
+		case 14:
+		{
+			print("-- Revenue from date to today --", 2);
+
+			char date[bufferSize]{};
+			print("From date (dd.mm.yyyy): ", 0);
+			input(date);
+			print("To today: ", 0);
+			print(getDate(), 2);
+
+			bool isValid = displayRevenueFromDateToNow(date, failCodes);
+			if (!isValid)
+			{
+				clearConsole();
 			}
 
 			displayFailCodeMessages(failCodes);

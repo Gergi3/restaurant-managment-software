@@ -85,6 +85,12 @@
     <ClCompile Include="orderValidator.cpp">
       <Filter>Validators</Filter>
     </ClCompile>
+    <ClCompile Include="revenue.cpp">
+      <Filter>Services\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="revenueValidator.cpp">
+      <Filter>Validators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="role.h">
@@ -166,6 +172,15 @@
       <Filter>Structs</Filter>
     </ClInclude>
     <ClInclude Include="orderValidator.h">
+      <Filter>Validators</Filter>
+    </ClInclude>
+    <ClInclude Include="revenue.h">
+      <Filter>Services\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="revenueConstants.h">
+      <Filter>Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="revenueValidator.h">
       <Filter>Validators</Filter>
     </ClInclude>
   </ItemGroup>

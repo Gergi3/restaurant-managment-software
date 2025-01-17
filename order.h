@@ -20,6 +20,8 @@ void setItemValues(
 
 OrderItem* getOrder(unsigned id);
 
+bool removeAllOrders();
+
 bool removeOrder(
 	unsigned id,
 	int*& failCodes,
