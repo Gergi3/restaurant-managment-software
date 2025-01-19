@@ -234,6 +234,11 @@ void routeToOption(int option)
 			char name[bufferSize];
 
 			MenuItem** menuItems = getAllFromMenu();
+			if (!menuItems)
+			{
+				print("Menu is currently empty!");
+				break;
+			}
 			displayMenuItems(menuItems);
 			freeMemory(menuItems);
 
@@ -289,6 +294,11 @@ void routeToOption(int option)
 			print("-- Place order -- ", 2);
 
 			MenuItem** menuItems = getAllFromMenu();
+			if (!menuItems)
+			{
+				print("Menu is currently empty!");
+				break;
+			}
 			displayMenuItems(menuItems);
 			freeMemory(menuItems);
 
