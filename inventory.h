@@ -12,6 +12,8 @@ void addToInventory(
 	const char* const name,
 	unsigned quantity);
 
+unsigned getInventoryCount(InventoryItem** items);
+
 void addManyToInventory(
 	InventoryItem** items,
 	int*& failCodes);

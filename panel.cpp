@@ -104,12 +104,33 @@ void routeToOption(int option)
 		{
 			print("-- Add to menu -- ", 2);
 
+			InventoryItem** ingredients = getAllFromInventory();
+			unsigned inventoryCount = getInventoryCount(ingredients);
+
+			if (inventoryCount == 0)
+			{
+				clearConsole();
+				print("Cannot add to menu because inventory is empty!");
+
+				break;
+			}
+
 			char menuItemName[bufferSize]{};
 			unsigned ingredientsCount = 0;
 			unsigned price = 0;
 
 			print("Name of dish: ", 0);
 			input(menuItemName);
+
+			bool isValidName = validateMenuItemName(menuItemName, failCodes);
+			if (!isValidName) 
+			{
+				clearConsole();
+				print("The dish could not be added!");
+				displayFailCodeMessages(failCodes);
+
+				break;
+			}
 
 			bool exists = menuItemExists(menuItemName);
 			if (exists)
@@ -124,11 +145,35 @@ void routeToOption(int option)
 			print("Price of dish: ", 0);
 			input(price);
 
+			bool isValidPrice = validateMenuItemPrice(price, failCodes);
+			if (!isValidPrice)
+			{
+				clearConsole();
+				print("The dish could not be added!");
+				displayFailCodeMessages(failCodes);
+				
+				break;
+			}
+
 			print("Please specify the number of ingredients for this dish: ", 0);
 			input(ingredientsCount);
 
-			bool isValid = validateMenuItem(menuItemName, price, ingredientsCount, failCodes);
-			if (!isValid)
+			if (ingredientsCount > inventoryCount)
+			{
+				clearConsole();
+				print("The dish could not be added!");
+				print("The dish cannot have ", 0);
+				print(ingredientsCount, 0);
+				print(" ingredients, because", 0);
+				print(" there are only ", 0);
+				print(inventoryCount, 0);
+				print(" available ingredients in the inventory");
+
+				break;
+			}
+
+			bool isValidCount = validateMenuItemIngredientsCount(ingredientsCount, failCodes);
+			if (!isValidCount)
 			{
 				clearConsole();
 				print("The dish could not be added!");

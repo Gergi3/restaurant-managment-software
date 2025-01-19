@@ -334,6 +334,22 @@ InventoryItem** getAllFromInventory()
 	return items;
 }
 
+unsigned getInventoryCount(InventoryItem** items)
+{
+	if (!items)
+	{
+		return 0;
+	}
+	
+	unsigned count = 0;
+	while (items[count])
+	{
+		count++;
+	}
+
+	return count;
+}
+
 void setItemValues(
 	std::ifstream& ifs,
 	InventoryItem*& item)
