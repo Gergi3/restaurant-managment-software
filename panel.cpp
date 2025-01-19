@@ -245,16 +245,6 @@ void routeToOption(int option, Role role)
 				print(": ", 0);
 				input(ingredientName);
 
-				//bool isValidIngredientName = validateInventoryItemName(ingredientName, failCodes);
-				//if (!isValidIngredientName)
-				//{
-				//	displayFailCodeMessages(failCodes);
-				//	resetFailCodes(failCodes);
-				//	printNewLine();
-
-				//	continue;
-				//}
-
 				InventoryItem* ingredient = getFromInventory(ingredientName, ingredients);
 				if (!ingredient)
 				{
