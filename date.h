@@ -28,6 +28,8 @@ unsigned extractYearFromDate(const char* date);
 
 bool isValidDate(const char* date);
 
-bool isBefore(const char* date1, const char* date2);
+bool isBefore(
+	const char* date1,
+	const char* date2);
 
 void displayDate();

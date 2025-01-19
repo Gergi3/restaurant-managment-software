@@ -180,7 +180,9 @@ bool isValidDate(const char* date)
 	return true;
 }
 
-bool isBefore(const char* date1, const char* date2)
+bool isBefore(
+	const char* date1,
+	const char* date2)
 {
 	unsigned day1 = extractDayFromDate(date1);
 	unsigned month1 = extractMonthFromDate(date1);

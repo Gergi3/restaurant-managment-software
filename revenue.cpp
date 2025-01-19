@@ -38,7 +38,9 @@ unsigned getCurrentRevenue()
 	return revenue;
 }
 
-bool displayRevenueFromDateToNow(char* date, int*& failCodes)
+bool displayRevenueFromDateToNow(
+	char* date,
+	int*& failCodes)
 {
 	bool valid = isValidDate(date);
 	if (!valid)
@@ -116,7 +118,10 @@ bool endCurrentRevenue()
 	return true;
 }
 
-void saveRevenue(std::ofstream& ofs, unsigned revenue, const char* const date)
+void saveRevenue(
+	std::ofstream& ofs,
+	unsigned revenue,
+	const char* const date)
 {
 	ofs << date << ';' << revenue << std::endl;
 }
@@ -129,7 +134,9 @@ void displayCurrentRevenue()
 	displayRevenue(revenue, date);
 }
 
-void displayRevenue(unsigned revenue, const char* const date)
+void displayRevenue(
+	unsigned revenue,
+	const char* const date)
 {
 	print(date, 0);
 	print(" - $", 0);
