@@ -2,6 +2,7 @@
 #include "role.h"
 #include "string.h"
 #include "userConstants.h"
+#include <iostream>
 
 const char* toString(Role role)
 {
@@ -220,7 +221,7 @@ unsigned countPrefixChars(
 	const char* str,
 	char ch)
 {
-	if (!str)
+	if (!str || !strcmp(str, ""))
 	{
 		return 0;
 	}
@@ -241,7 +242,7 @@ void shiftLeftMutate(
 	char* str,
 	unsigned pos)
 {
-	if (!str)
+	if (!str || !strcmp(str, ""))
 	{
 		return;
 	}
@@ -263,7 +264,7 @@ void trimLeftMutate(
 	char* str,
 	char ch)
 {
-	if (!str)
+	if (!str || !strcmp(str, ""))
 	{
 		return;
 	}
@@ -276,7 +277,7 @@ void trimRightMutate(
 	char* str,
 	char ch)
 {
-	if (!str)
+	if (!str || !strcmp(str, ""))
 	{
 		return;
 	}
@@ -291,7 +292,7 @@ void trimMutate(
 	char* str,
 	char ch)
 {
-	if (!str)
+	if (!str || !strcmp(str, ""))
 	{
 		return;
 	}
