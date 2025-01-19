@@ -476,6 +476,8 @@ void routeToOption(int option, Role role)
 			print("Name of ingredient: ", 0);
 			input(name);
 
+			clearConsole();
+
 			bool isRemoved = removeFromInventory(name, failCodes);
 			if (isRemoved)
 			{
