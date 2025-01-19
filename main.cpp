@@ -1,3 +1,17 @@
+/**
+*
+* Solution to course project # 1
+* Introduction to programming course
+* Faculty of Mathematics and Informatics of Sofia University * Winter semester 2024/2025
+*
+* @author Georgi Petrov
+* @idnumber 5MI0600421
+* @compiler VC
+*
+* Entry point for the project
+*
+*/
+
 #include "io.h"
 #include "panel.h"
 #include "role.h"
