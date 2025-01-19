@@ -18,37 +18,55 @@
 void displayPanel(Role role)
 {
 	displayDate();
-	print("1. Exit", 2);
+	if (role == Role::Manager)
+	{
+		print("1. Exit and end revenue");
+	}
+	else if (role == Role::Server)
+	{
+		print("1. Exit");
+	}
+
+	printNewLine();
 
 	print("-- Menu --");
 	print("2. Show menu");
-	print("3. Add to menu");
-	print("4. Remove from menu", 2);
+	if (role == Role::Manager)
+	{
+		print("3. Add to menu");
+		print("4. Remove from menu");
+	}
+
+	printNewLine();
 
 	print("-- Orders --");
 	print("5. Show orders");
 	print("6. Show orders with count");
 	print("7. Place order");
-	print("8. Cancel order", 2);
+	print("8. Cancel order");
 
-	if (role != Role::Manager)
+	printNewLine();
+
+	if (role == Role::Manager)
 	{
-		return;
+		print("-- Inventory --");
+		print("9. Show inventory");
+		print("10. Add to inventory");
+		print("11. Remove from inventory", 2);
 	}
-
-	print("-- Inventory --");
-	print("9. Show inventory");
-	print("10. Add to inventory");
-	print("11. Remove from inventory", 2);
 
 	print("-- Revenue --");
 	print("12. Get current revenue");
-	print("13. End current revenue");
-	print("14. Check revenue from date to today");
+	if (role == Role::Manager)
+	{
+		print("13. End current revenue");
+		print("14. Check revenue from date to today");
+	}
 }
 
 int promptForOption(Role role)
 {
+	printNewLine();
 	print("Go to: ", 0);
 	int chosenOption = -1;
 	input(chosenOption);
@@ -61,7 +79,7 @@ int promptForOption(Role role)
 	return chosenOption;
 }
 
-void routeToOption(int option)
+void routeToOption(int option, Role role)
 {
 	clearConsole();
 
@@ -80,7 +98,26 @@ void routeToOption(int option)
 	{
 		case EXIT_OPTION:
 		{
-			displayExitMessage();
+			if (role == Role::Manager)
+			{
+				print("Ending current revenue..");
+				bool isEnded = endCurrentRevenue();
+				if (!isEnded)
+				{
+					print("There was an error with ending current revenue!");
+					print("Please try again!");
+				}
+				else
+				{
+					print("Successfully ended current revenue!");
+				}
+
+				printNewLine();
+			}
+
+
+			print("Exitting managment software..");
+			print("Successfully exited!");
 
 			break;
 		}
@@ -189,8 +226,6 @@ void routeToOption(int option)
 			InventoryItem** chosenIngredients = new InventoryItem * [ingredientsCount + 1]
 				{};
 			menuItem->ingredients = chosenIngredients;
-
-			InventoryItem** ingredients = getAllFromInventory();
 
 			printNewLine();
 			print("-- Ingredients -- ");
@@ -447,6 +482,7 @@ void routeToOption(int option)
 
 			printNewLine();
 			print("Select ingredient from the list provided above.");
+			print("The item will not be completely deleted from the inventory, its quantity will be reduced to 0.");
 			print("Name of ingredient: ", 0);
 			input(name);
 
@@ -532,15 +568,30 @@ bool isValidOption(
 	{
 		case Role::Server:
 		{
-			isAllowed = option >= PANEL_CONSTANTS::MIN_SERVER_OPTION
-				&& option <= PANEL_CONSTANTS::MAX_SERVER_OPTION;
-
+			unsigned serverOptionsCount = PANEL_CONSTANTS::SERVER_OPTIONS_COUNT;
+			while (serverOptionsCount)
+			{
+				unsigned serverOption = PANEL_CONSTANTS::SERVER_OPTIONS[serverOptionsCount - 1];
+				if (serverOption == option)
+				{
+					isAllowed = true;
+				}
+				serverOptionsCount--;
+			}
 			break;
 		}
 		case Role::Manager:
 		{
-			isAllowed = option >= PANEL_CONSTANTS::MIN_MANAGER_OPTION
-				&& option <= PANEL_CONSTANTS::MAX_MANAGER_OPTION;
+			unsigned managerOptionsCount = PANEL_CONSTANTS::MANAGER_OPTIONS_COUNT;
+			while (managerOptionsCount)
+			{
+				unsigned managerOption = PANEL_CONSTANTS::MANAGER_OPTIONS[managerOptionsCount - 1];
+				if (managerOption == option)
+				{
+					isAllowed = true;
+				}
+				managerOptionsCount--;
+			}
 
 			break;
 		}
@@ -549,10 +600,3 @@ bool isValidOption(
 	return isAllowed;
 }
 
-void displayExitMessage()
-{
-	clearConsole();
-
-	print("Exitting managment software..");
-	print("Successfully exited!");
-}

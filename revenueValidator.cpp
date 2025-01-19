@@ -1,5 +1,5 @@
 #include "io.h"
-#include "revenueConstants.h";
+#include "revenueConstants.h"
 
 void displayRevenueFailCodeMessage(int failCode)
 {

@@ -1,6 +1,6 @@
 #include "date.h"
 #include "dateConstants.h"
-#include "garbageCollector.h";
+#include "garbageCollector.h"
 #include "generalConstants.h"
 #include "io.h"
 #include "menu.h"

@@ -15,7 +15,6 @@ namespace MENU_CONSTANTS
 	constexpr unsigned MIN_INGREDIENTS_COUNT = 1;
 	constexpr unsigned MAX_INGREDIENTS_COUNT = 30;
 
-
 	constexpr unsigned NAME_FAIL_CODE = 200;
 	constexpr char const* NAME_FAIL_MESSAGE = "Name must be between ";
 

@@ -7,12 +7,12 @@
 #include "menuConstants.h"
 #include "menuItem.h"
 #include "misc.h"
+#include "order.h"
 #include "stream.h"
 #include "string.h"
 #include "validator.h"
 #include <fstream>
 #include <iostream>
-#include "order.h"
 
 bool addToMenu(
 	MenuItem* item,

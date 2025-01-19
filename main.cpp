@@ -21,7 +21,7 @@ int main()
 	{
 		displayPanel(role);
 		option = promptForOption(role);
-		routeToOption(option);
+		routeToOption(option, role);
 	}
 
 	return 0;

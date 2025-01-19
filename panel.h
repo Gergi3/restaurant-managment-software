@@ -7,10 +7,8 @@ void displayPanel(Role role);
 
 int promptForOption(Role role);
 
-void routeToOption(int option);
+void routeToOption(int option, Role role);
 
 bool isValidOption(
 	int option,
 	Role role);
-
-void displayExitMessage();
